@@ -5,8 +5,6 @@
  */
 package model;
 
-import com.sun.xml.internal.bind.AccessorFactory;
-import com.sun.xml.internal.bind.XmlAccessorFactory;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -63,6 +61,10 @@ public class Container
         this.goods = goods;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Automa getAutoma() {
         return automa;
     }

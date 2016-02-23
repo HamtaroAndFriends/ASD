@@ -87,7 +87,7 @@ public class State
      * 
      * @return 
      */
-    public boolean isIsFinal()
+    public boolean isFinal()
     {
         return isFinal;
     }
@@ -96,7 +96,7 @@ public class State
      * 
      * @return 
      */
-    public boolean isIsInitial() 
+    public boolean isInitial() 
     {
         return isInitial;
     }
@@ -105,7 +105,7 @@ public class State
      * 
      * @param isFinal 
      */
-    public void setIsFinal(boolean isFinal) 
+    public void setFinal(boolean isFinal) 
     {
         this.isFinal = isFinal;
     }

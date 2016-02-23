@@ -35,22 +35,6 @@ public class Automa
      */
     @XmlElementWrapper
     @XmlElement
-    private List <Transition> transitions;
-    
-    /**
-     * 
-     */
-    @XmlElementWrapper
-    @XmlElement
-    private Map <Integer, List<Transition>> goods;
-    
-    /**
-     * 
-     */
-    @XmlElementWrapper
-    @XmlElement
-    private Map <Integer, List<Transition>> bads;
-
     private List <Transition> observables;
     
     /**
@@ -120,37 +104,18 @@ public class Automa
      * 
      * @return 
      */
-    public Map<Integer, List<Transition>> getGoods() 
+    public List<Transition> getFaults() 
     {
-        return goods;
+        return faults;
     }
 
     /**
      * 
-     * @param goods 
+     * @param faults 
      */
-    public void setGoods(Map<Integer, List<Transition>> goods) 
+    public void setFaults(List<Transition> faults) 
     {
-        this.goods = goods;
-    }
-    
-    /**
-     * 
-     * @return 
-     */
-    public Map<Integer, List<Transition>> getBads() 
-    {
-        return bads;
+        this.faults = faults;
     }
 
-    /**
-     * 
-     * @param bads 
-     */
-    public void setBads(Map<Integer, List<Transition>> bads) 
-    {
-        this.bads = bads;
-    }
-    
-    
 }

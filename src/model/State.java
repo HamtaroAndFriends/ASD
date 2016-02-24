@@ -124,7 +124,7 @@ public class State
     {
         if(o instanceof State)
         {
-            return ((State) o).name.equals(this.name);
+            return ((State) o).getName().equals(this.name);
         }
         
         return false;

@@ -48,6 +48,12 @@ public class Transition
      */
     @XmlElement
     private boolean isObservable;
+    
+    /**
+     * 
+     */
+    @XmlElement
+    private boolean isAmbiguous;
 
     /**
      * 
@@ -72,6 +78,26 @@ public class Transition
         this.event = event;
         this.isFault = isFault;
         this.isObservable = isObservable;
+        this.isAmbiguous = false;
+    }
+    
+    /**
+     * 
+     * @param start
+     * @param end
+     * @param event
+     * @param isFault
+     * @param isObservable
+     * @param isAmbiguous 
+     */
+    public Transition(State start, State end, Event event, boolean isFault, boolean isObservable, boolean isAmbiguous)
+    {
+        this.start = start;
+        this.end = end;
+        this.event = event;
+        this.isFault = isFault;
+        this.isObservable = isObservable;
+        this.isAmbiguous = isAmbiguous;
     }
 
     /**
@@ -148,6 +174,14 @@ public class Transition
 
     /**
      * 
+     * @return 
+     */
+    public boolean isAmbiguous() 
+    {
+        return isFault;
+    }
+    /**
+     * 
      * @param isFault 
      */
     public void setFault(boolean isFault) 
@@ -163,8 +197,35 @@ public class Transition
     {
         this.isObservable = isObservable;
     }
-    
-    
-    
+
+    /**
+     * 
+     * @param isAmbiguous 
+     */
+    public void setAmbiguous(boolean isAmbiguous) 
+    {
+        this.isAmbiguous = isAmbiguous;
+    }
+
+    /**
+     * 
+     * @param o
+     * @return 
+     */
+    @Override
+    public boolean equals(Object o) 
+    {
+        if(o instanceof Transition)
+        {
+            return ((Transition) o).getStart().equals(this.start)
+                    && ((Transition) o).getEnd().equals(this.end);
+            
+            // To do: not implemented yet
+        }
+        
+        
+        return false;
+    }
+ 
     
 }

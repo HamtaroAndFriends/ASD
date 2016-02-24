@@ -6,7 +6,9 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
@@ -35,6 +37,8 @@ public class ControllerTwin
     {
         // Get the list of the state of the automa
         List <State> s1 = automa.getStates();
+        // Get the initial state of the automa
+        State so1 = automa.getInitial();
         // Get the list of all observable transitions
         List <Transition> to = automa.getObservables();
         // Get the list of all fault transitions
@@ -45,9 +49,9 @@ public class ControllerTwin
         // Foreach state of the automa
         for(State s : automa.getStates())
         {
-            List <Transition> nob = automa.getNotObservables();
+            
             // Foreach transition in the fault list that starts from s and reaches sd
-            for(Transition t : automa.getNotObservables().stream().filter((p) -> (p.getStart().equals(s))).collect(Collectors.toList()))
+            for(Transition t : automa.getTransitions(s).stream().filter((p) -> (p.isObservable() == false)).collect(Collectors.toList()))
             {
                 // Set fault if the transition is a fault one
                 fault = automa.getFaults().contains(t);
@@ -82,7 +86,7 @@ public class ControllerTwin
         
         //To do: remove all not reacheable states
         
-        return new Automa(s1, ta);
+        return new Automa(so1, s1, ta);
     }
     
     /**
@@ -102,7 +106,7 @@ public class ControllerTwin
         boolean fault1;
         
         // Foreach transition that stars from state s
-        for(Transition t : automa.getTransitions().stream().filter((t) -> (t.getStart().equals(s))).collect(Collectors.toList()))
+        for(Transition t : automa.getTransitions(s))
         {
             // Check if t is a fault transition
             if(automa.getFaults().contains(t))
@@ -153,5 +157,18 @@ public class ControllerTwin
         return tuples;
     }
     
-
+    public Automa getGoodTwin(Automa bad)
+    {
+        // The initial state of the bad twin
+        State so1 = bad.getInitial();
+        // The states of the bad twin except the unreacheable ones given only T\Tf transitions
+        List <State> s1 = new ArrayList <> ();
+        // The transitions of the bad twin except the fault ones
+        List <Transition> t1 = bad.getNotFaults();
+        
+        //To do: set initial state of the good twin
+        
+        return new Automa(so1, s1, t1);
+    }
+    
 }

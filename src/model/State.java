@@ -118,4 +118,18 @@ public class State
     {
         this.isInitial = isInitial;
     }
+
+    @Override
+    public boolean equals(Object o) 
+    {
+        if(o instanceof State)
+        {
+            return ((State) o).name.equals(this.name);
+        }
+        
+        return false;
+    }
+    
+    
+    
 }

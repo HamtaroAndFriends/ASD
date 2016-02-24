@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,56 +27,43 @@ public class Event
     */
     @XmlElementWrapper
     @XmlElement
-    private List <String> rights;
-    
-    /**
-     * 
-     */
-    @XmlElementWrapper
-    @XmlElement
-    private List <String> faults;
+    private List<String> events;
 
     /**
      * 
      */
     public Event() 
     {
-        this.rights = new ArrayList <> ();
-        this.faults = new ArrayList <> ();
+        this.events = new ArrayList <> ();
+    }
+
+    /**
+     * 
+     * @param event 
+     */
+    public Event(String event)
+    {
+        this.events = new ArrayList <> ();
+        this.events.add(event);
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public List<String> getEvents() 
+    {
+        return events;
     }
 
     /**
      * 
      * @param events 
      */
-    public Event(List<String> events) 
+    public void setEvents(List<String> events) 
     {
-        this.rights = events;
-    }
-
-    /**
-     * 
-     * @return 
-     */
-    public List<String> getRights() 
-    {
-        return rights;
-    }
-
-    /**
-     * 
-     * @param rights 
-     */
-    public void setRights(List<String> rights) 
-    {
-        this.rights = rights;
+        this.events = events;
     }
     
-    
-    @XmlAttribute
-    public boolean isFault()
-    {
-        return (faults.isEmpty());
-    }
     
 }

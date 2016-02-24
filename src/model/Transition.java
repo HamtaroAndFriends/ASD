@@ -42,6 +42,12 @@ public class Transition
      */
     @XmlElement
     private boolean isFault;
+    
+    /**
+     * 
+     */
+    @XmlElement
+    private boolean isObservable;
 
     /**
      * 
@@ -57,13 +63,15 @@ public class Transition
      * @param end
      * @param event 
      * @param isFault 
+     * @param isObservable 
      */
-    public Transition(State start, State end, Event event, boolean isFault)
+    public Transition(State start, State end, Event event, boolean isFault, boolean isObservable)
     {
         this.start = start;
         this.end = end;
         this.event = event;
         this.isFault = isFault;
+        this.isObservable = isObservable;
     }
 
     /**
@@ -119,6 +127,44 @@ public class Transition
     {
         this.event = event;
     }
+
+    /**
+     * 
+     * @return 
+     */
+    public boolean isFault() 
+    {
+        return isFault;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public boolean isObservable() 
+    {
+        return isObservable;
+    }
+
+    /**
+     * 
+     * @param isFault 
+     */
+    public void setFault(boolean isFault) 
+    {
+        this.isFault = isFault;
+    }
+
+    /**
+     * 
+     * @param isObservable 
+     */
+    public void setObservable(boolean isObservable) 
+    {
+        this.isObservable = isObservable;
+    }
+    
+    
     
     
 }

@@ -8,6 +8,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -35,22 +36,15 @@ public class Automa
      */
     @XmlElementWrapper
     @XmlElement
-    private List <Transition> observables;
-    
-    /**
-     * 
-     */
-    @XmlElementWrapper
-    @XmlElement
-    private List <Transition> faults;
-    
+    private List <Transition> transitions;
+
     /**
      * 
      */
     public Automa()
     {
         this.states = new ArrayList <> ();
-        this.observables = new ArrayList <> ();
+        this.transitions = new ArrayList <> ();
     }
 
     /**
@@ -61,7 +55,7 @@ public class Automa
     public Automa(List<State> states, List<Transition> transitions)
     {
         this.states = states;
-        this.observables = transitions;
+        this.transitions = transitions;
     }
 
     /**
@@ -86,36 +80,63 @@ public class Automa
      * 
      * @return 
      */
-    public List<Transition> getObservables() 
+    public List<Transition> getTransitions() 
     {
-        return observables;
+        return transitions;
     }
 
     /**
      * 
-     * @param observables 
+     * @param transitions 
      */
-    public void setObservables(List<Transition> observables) 
+    public void setTransitions(List<Transition> transitions) 
     {
-        this.observables = observables;
+        this.transitions = transitions;
     }
-
+    
     /**
      * 
      * @return 
      */
-    public List<Transition> getFaults() 
+    public List<Transition> getObservables()
     {
-        return faults;
+        return transitions.stream().filter((t) -> (t.isObservable() == true)).collect(Collectors.toList());
     }
-
+    
     /**
      * 
-     * @param faults 
+     * @return 
      */
-    public void setFaults(List<Transition> faults) 
+    public List<Transition> getNotObservables()
     {
-        this.faults = faults;
+        return transitions.stream().filter((t) -> (t.isObservable() == false)).collect(Collectors.toList());
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public List<Transition> getFaults()
+    {
+        return transitions.stream().filter((t) -> (t.isFault() == true)).collect(Collectors.toList());
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public List<Transition> getNotFaults()
+    {
+        return transitions.stream().filter((t) -> (t.isFault() == false)).collect(Collectors.toList());
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public State getInitialState()
+    {
+        return states.stream().filter((s) -> (s.isInitial())).findFirst().get();
     }
 
 }

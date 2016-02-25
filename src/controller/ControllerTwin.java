@@ -5,6 +5,7 @@
  */
 package controller;
 
+import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +58,7 @@ public class ControllerTwin
                 fault = automa.getFaults().contains(t);
 
                 // Define the list of the tuples
-                List <List <Object>> tuples = find(automa, 1, t.getEnd(), fault, new Event());
+                List <List <Object>> tuples = find(automa, t.getEnd(), 1, fault, new Event());
 
                 // Foreach triple in the list
                 for(List <Object> tuple : tuples)
@@ -98,7 +99,7 @@ public class ControllerTwin
      * @param ot
      * @return 
      */
-    public List <List<Object>> find(Automa automa, int n, State s, boolean fault, Event ot)
+    public List <List<Object>> find(Automa automa, State s, int n, boolean fault, Event ot)
     {
         // Define the list of the tuples
         List <List <Object>> tuples = new ArrayList <> ();
@@ -142,19 +143,93 @@ public class ControllerTwin
                 }
                 else
                 {
-                    List <List <Object>> result = find(automa, n - o.getEvents().size(), t.getEnd(), fault1, oot);
+                    List <List <Object>> result = find(automa, t.getEnd(), n - o.getEvents().size(), fault1, oot);
                     tuples.addAll(result);
                 }
             }
             
             if(!automa.getObservables().contains(t))
             {
-                List <List <Object>> result = find(automa, n, t.getEnd(), fault1, ot);
+                List <List <Object>> result = find(automa, t.getEnd(), n, fault1, ot);
                 tuples.addAll(result);
             }
         }
         
         return tuples;
+    }
+    
+    /**
+     * 
+     * @param bad
+     * @return 
+     */
+    public Automa getBadTwinI(Automa bad)
+    {
+        // The list of the transitions of the previous bad twin
+        List <Transition> t1 = bad.getTransitions();
+        // The list of the fault transitions of the previous bad twin
+        List <Transition> tf = bad.getFaults();
+        
+        boolean fault;
+        
+        for(State s : bad.getStates())
+        {
+            for(Transition t : bad.getTransitions(s))
+            {
+                // Is true if t is a fault transition, false if not
+                fault = tf.contains(t);
+                
+                Event ot = t.getEvent();
+                
+                List <List <Object>> tuples = find(bad, t.getEnd(), ot.getEvents().size() , fault, ot);
+                
+                // Foreach triple in the list
+                for(List <Object> tuple : tuples)
+                {
+                    Event o = (Event) tuple.get(0);
+                    
+                    // Check if the simple event inside ot are not identical
+                    if(!containsIdenticalEvent(ot))
+                    {
+                        // Create a new transition
+                        Transition tn = new  Transition(s, (State) tuple.get(1), o, (boolean) tuple.get(2), true);
+                        
+                        // Add the transition to the list
+                        t1.add(tn);
+                        
+                        if(((Boolean)tuple.get(2)) == true)
+                        {
+                            // Add this transition to fault list
+                            tf.add(tn);
+                        }
+                    }
+                } 
+            }
+        }
+        
+        // To do: check if Java requires to merge the transitions with the fault ones
+        
+        return new Automa(bad.getInitial(), bad.getStates(), t1);
+    }
+    
+    
+    /**
+     * This method returns true if the simple event inside the given one are 
+     * identical.
+     * 
+     * @param event
+     * @return 
+     */
+    public boolean containsIdenticalEvent(Event event)
+    {
+        if(event.getEvents().size() < 1) 
+        {
+            return true;
+        }
+        else 
+        {
+            return Sets.newHashSet(event.getEvents()).size() == 1;
+        }
     }
     
     public Automa getGoodTwin(Automa bad)

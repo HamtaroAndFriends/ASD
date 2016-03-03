@@ -10,6 +10,7 @@ import com.google.common.base.Suppliers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -51,7 +52,7 @@ public class Automa
      * 
      */
     @XmlTransient
-    private Supplier <Map <State, List <Transition>>> stateTransitions;
+    private ConcurrentHashMap <State, List <Transition>> stateTransitions;
     
     /**
      * 
@@ -83,8 +84,7 @@ public class Automa
         this.observables = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isObservable() == true)).collect(Collectors.toList()));
         this.faults = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isFault() == true)).collect(Collectors.toList()));
         this.ambiguous = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isAmbiguous() == true)).collect(Collectors.toList()));
-        this.stateTransitions = Suppliers.memoize(() -> (transitions.stream().collect(Collectors.groupingBy(Transition::getStart))));
-
+        this.stateTransitions = new ConcurrentHashMap <> ();
     }
 
     /**
@@ -153,7 +153,7 @@ public class Automa
      */
     public List<Transition> getTransitions(State start)
     {
-        return stateTransitions.get().getOrDefault(start, new ArrayList <> ());
+        return stateTransitions.computeIfAbsent(start, (s) -> (transitions.stream().filter((t) -> (t.getStart().equals(start))).collect(Collectors.toList())));
     }
 
     /**

@@ -72,7 +72,7 @@ public class TwinTest {
         JAXBContext context = JAXBContext.newInstance(Automa.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,  true);
-        marshaller.marshal(result, System.out);
+        //marshaller.marshal(result, System.out);
         
     }
     
@@ -86,5 +86,18 @@ public class TwinTest {
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,  true);
         marshaller.marshal(good, System.out);
+    }
+    
+    @Test
+    public void testBadTwin2() throws JAXBException
+    {
+        Automa bad = controller.getBadTwinOne(automa);
+        Automa good = controller.getGoodTwin(bad);
+        Automa bad2 = controller.getBadTwinI(bad, 2);
+        
+        JAXBContext context = JAXBContext.newInstance(Automa.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,  true);
+        marshaller.marshal(bad2, System.out);
     }
 }

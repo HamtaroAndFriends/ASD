@@ -261,49 +261,91 @@ public class ControllerTwin
      * @param good
      * @return 
      */
-    public Automa getSyncTwin(Automa bad, Automa good)
+    public List<SyncTransition> getSyncTwin(Automa bad, Automa good)
     {
         List <SyncTransition> ta = new ArrayList();
-        List <SyncTransition> tSecondo = new ArrayList();
-        List <SyncState> sdue = new ArrayList();
+        List <SyncTransition> tDue = new ArrayList();
+        List <SyncState> sDue = new ArrayList();
         for(State s: good.getStates())
         {
             SyncState coppia = new SyncState(s, s);
-            sdue.add(coppia);
+            sDue.add(coppia);
         }
         
         for(Transition t: good.getTransitions())
         {
             SyncTransition coppiaT = new SyncTransition(t,t);
-            tSecondo.add(coppiaT);
+            tDue.add(coppiaT);
         }
         
         
-        if()
+        if(!ControllerAlphabet.isDeterministic(bad))
         {
-            // se bad è deterministico crea automa e tornalo
+            return ta;
         }
         else
         {
-           List <SyncState> sPrev = new ArrayList(sdue);
+           List <SyncState> sPrev = new ArrayList(sDue);
            for(State s: good.getStates())
            {
               List <Transition> allT = bad.getTransitions(s);
               List <Transition> notFaultT = bad.getTransitions(s).stream().filter((a) -> (!a.isFault())).collect(Collectors.toList());
-              List <SyncTransition> t1e2 = new ArrayList();
               for(Transition t1: allT)
               {
-                  // continua qui
+                  for(Transition t2: notFaultT)
+                  {
+                      if(t1.getEvent().equals(t2.getEvent()))
+                      {
+                          SyncTransition t12 = new SyncTransition(t1,t2);
+                          SyncState s12 = new SyncState(t1.getEnd(),t2.getEnd());
+                          sDue.add(s12);
+                          tDue.add(t12);
+                          if(t1.isFault())
+                          {
+                              ta.add(t12);
+                          }
+                      }
+                  }
               }
               
            }
            
-           
-           
+           while(!sDue.equals(sPrev))
+           {
+               List <SyncState> sDiff = new ArrayList(sDue);
+               for(SyncState s: sPrev)
+               {
+                   sDiff.remove(s);
+               }
+               sPrev = new ArrayList(sDue);
+               
+               for(SyncState s12: sDiff)
+               {
+                   List <Transition> allT = bad.getTransitions();
+                   List <Transition> notFaultT=bad.getNotFaults();
+                   for(Transition t1: allT)
+                   {
+                       for(Transition t2: notFaultT)
+                       {
+                           if(t1.getEvent().equals(t2.getEvent()))
+                           {
+                               SyncTransition t12 = new SyncTransition(t1,t2);
+                               SyncState sAB = new SyncState(t1.getEnd(),t2.getEnd());
+                               sDue.add(sAB);
+                               tDue.add(t12);
+                               if(t1.isFault())
+                               {
+                                   ta.add(t12);
+                               }
+                               
+                           }
+                       }
+                   }
+               }
+           }
         }
         
-        
-        
+        return ta;
     }
     
 }

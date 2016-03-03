@@ -25,7 +25,7 @@ public class ControllerAlphabet
      * @param automa
      * @return 
      */
-    public boolean isDeterministic(Automa automa)
+    public static boolean isDeterministic(Automa automa)
     {
         for(State s : automa.getStates())
         {

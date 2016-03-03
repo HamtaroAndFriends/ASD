@@ -18,6 +18,8 @@ import model.Automa;
 import model.Event;
 import model.State;
 import model.Transition;
+import model.sync.SyncState;
+import model.sync.SyncTransition;
 
 /**
  *
@@ -248,6 +250,34 @@ public class ControllerTwin
         List <Transition> t1 = bad.getNotFaults();
         
         return new Automa(so1, s1, t1);
+    }
+    
+    
+    /**
+     * 
+     * @param bad
+     * @param good
+     * @return 
+     */
+    public Automa getSyncTwin(Automa bad, Automa good)
+    {
+        List <SyncTransition> ta = new ArrayList();
+        List <SyncTransition> t2 = new ArrayList();
+        List <SyncState> sdue = new ArrayList();
+        for(State s: bad.getStates())
+        {
+            SyncState coppia = new SyncState(s, s);
+            sdue.add(coppia);
+        }
+        
+        for(Transition t: good.getTransitions())
+        {
+            SyncTransition coppiaT = new SyncTransition(t,t);
+            t2.add(coppiaT);
+        }
+        
+        
+        
     }
     
 }

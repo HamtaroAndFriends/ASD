@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -118,18 +119,53 @@ public class State
     {
         this.isInitial = isInitial;
     }
-
+    
+    /**
+     * 
+     * @return 
+     */
     @Override
-    public boolean equals(Object o) 
+    public int hashCode() 
     {
-        if(o instanceof State)
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    /**
+     * 
+     * @param obj
+     * @return 
+     */
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj) 
         {
-            return ((State) o).getName().equals(this.name);
+            return true;
         }
         
-        return false;
+        if (obj == null) 
+        {
+            return false;
+        }
+        
+        if (getClass() != obj.getClass()) 
+        {
+            return false;
+        }
+        
+        final State other = (State) obj;
+        
+        if (!Objects.equals(this.name, other.name))
+        {
+            return false;
+        }
+        
+        return true;
     }
-    
+
+
     
     
 }

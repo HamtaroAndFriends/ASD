@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -209,23 +210,62 @@ public class Transition
 
     /**
      * 
-     * @param o
      * @return 
      */
     @Override
-    public boolean equals(Object o) 
+    public int hashCode() 
     {
-        if(o instanceof Transition)
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.start);
+        hash = 89 * hash + Objects.hashCode(this.end);
+        hash = 89 * hash + Objects.hashCode(this.event);
+        return hash;
+    }
+
+    /**
+     * 
+     * @param obj
+     * @return 
+     */
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj) 
         {
-            return ((Transition) o).getStart().equals(this.start)
-                    && ((Transition) o).getEnd().equals(this.end);
-            
-            // To do: not implemented yet
+            return true;
         }
         
+        if (obj == null) 
+        {
+            return false;
+        }
         
-        return false;
+        if (getClass() != obj.getClass()) 
+        {
+            return false;
+        }
+        
+        final Transition other = (Transition) obj;
+        
+        if (!Objects.equals(this.start, other.start))
+        {
+            return false;
+        }
+        
+        if (!Objects.equals(this.end, other.end)) 
+        {
+            return false;
+        }
+        
+        if (!Objects.equals(this.event, other.event)) 
+        {
+            return false;
+        }
+        
+        return true;
     }
+
+
  
     
 }

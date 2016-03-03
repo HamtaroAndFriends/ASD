@@ -232,16 +232,20 @@ public class ControllerTwin
         }
     }
     
+    /**
+     * 
+     * @param bad
+     * @return 
+     */
     public Automa getGoodTwin(Automa bad)
     {
         // The initial state of the bad twin
         State so1 = bad.getInitial();
         // The states of the bad twin except the unreacheable ones given only T\Tf transitions
-        List <State> s1 = new ArrayList <> ();
+        ControllerReachable controllerReachable = new ControllerReachable();
+        List <State> s1 = controllerReachable.getReachable(bad);
         // The transitions of the bad twin except the fault ones
         List <Transition> t1 = bad.getNotFaults();
-        
-        //To do: set initial state of the good twin
         
         return new Automa(so1, s1, t1);
     }

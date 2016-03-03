@@ -75,4 +75,16 @@ public class TwinTest {
         marshaller.marshal(result, System.out);
         
     }
+    
+    @Test
+    public void testGoodTwin() throws JAXBException
+    {
+        Automa bad = controller.getBadTwinOne(automa);
+        Automa good = controller.getGoodTwin(bad);
+        
+        JAXBContext context = JAXBContext.newInstance(Automa.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,  true);
+        marshaller.marshal(good, System.out);
+    }
 }

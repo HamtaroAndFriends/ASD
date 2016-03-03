@@ -6,13 +6,13 @@
 package controller;
 
 import com.google.common.collect.Sets;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import model.Automa;
 import model.Event;
 import model.State;
-import model.Transition;
 
 /**
  *
@@ -29,8 +29,6 @@ public class ControllerAlphabet
     {
         for(State s : automa.getStates())
         {
-            List <Transition> trs = automa.getTransitions(s);
-            
             List <Event> events = automa.getTransitions(s).stream().map((t) -> (t.getEvent())).collect(Collectors.toList());
             if(Sets.newHashSet(events).size() != events.size()) return false;
         }

@@ -89,7 +89,8 @@ public class ControllerTwin
         
         //To do: remove all not reacheable states
         
-        return new Automa(so1, s1, ta);
+        //Note: to is used insted of ta (it generate duplicates, but you could use it in the cache)
+        return new Automa(so1, s1, to);
     }
     
     /**
@@ -163,9 +164,10 @@ public class ControllerTwin
     /**
      * 
      * @param bad
+     * @param i
      * @return 
      */
-    public Automa getBadTwinI(Automa bad)
+    public Automa getBadTwinI(Automa bad, int i)
     {
         // The list of the transitions of the previous bad twin
         List <Transition> t1 = bad.getTransitions();
@@ -183,7 +185,7 @@ public class ControllerTwin
                 
                 Event ot = t.getEvent();
                 
-                List <List <Object>> tuples = find(bad, t.getEnd(), ot.getEvents().size() , fault, ot);
+                List <List <Object>> tuples = find(bad, t.getEnd(), i - ot.getEvents().size() , fault, ot);
                 
                 // Foreach triple in the list
                 for(List <Object> tuple : tuples)
@@ -191,7 +193,7 @@ public class ControllerTwin
                     Event o = (Event) tuple.get(0);
                     
                     // Check if the simple event inside ot are not identical
-                    if(!containsIdenticalEvent(ot))
+                    if(!containsIdenticalEvent(o))
                     {
                         // Create a new transition
                         Transition tn = new  Transition(s, (State) tuple.get(1), o, (boolean) tuple.get(2), true);
@@ -224,9 +226,9 @@ public class ControllerTwin
      */
     public boolean containsIdenticalEvent(Event event)
     {
-        if(event.getEvents().size() < 1) 
+        if(event.getEvents().size() <= 1) 
         {
-            return true;
+            return false;
         }
         else 
         {

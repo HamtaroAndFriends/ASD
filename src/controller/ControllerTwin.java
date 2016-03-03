@@ -262,9 +262,9 @@ public class ControllerTwin
     public Automa getSyncTwin(Automa bad, Automa good)
     {
         List <SyncTransition> ta = new ArrayList();
-        List <SyncTransition> t2 = new ArrayList();
+        List <SyncTransition> tSecondo = new ArrayList();
         List <SyncState> sdue = new ArrayList();
-        for(State s: bad.getStates())
+        for(State s: good.getStates())
         {
             SyncState coppia = new SyncState(s, s);
             sdue.add(coppia);
@@ -273,7 +273,31 @@ public class ControllerTwin
         for(Transition t: good.getTransitions())
         {
             SyncTransition coppiaT = new SyncTransition(t,t);
-            t2.add(coppiaT);
+            tSecondo.add(coppiaT);
+        }
+        
+        
+        if()
+        {
+            // se bad è deterministico crea automa e tornalo
+        }
+        else
+        {
+           List <SyncState> sPrev = new ArrayList(sdue);
+           for(State s: good.getStates())
+           {
+              List <Transition> allT = bad.getTransitions(s);
+              List <Transition> notFaultT = bad.getTransitions(s).stream().filter((a) -> (!a.isFault())).collect(Collectors.toList());
+              List <SyncTransition> t1e2 = new ArrayList();
+              for(Transition t1: allT)
+              {
+                  // continua qui
+              }
+              
+           }
+           
+           
+           
         }
         
         

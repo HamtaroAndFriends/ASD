@@ -18,6 +18,7 @@ import model.Automa;
 import model.Event;
 import model.State;
 import model.Transition;
+import model.sync.SyncAutoma;
 import model.sync.SyncState;
 import model.sync.SyncTransition;
 
@@ -238,6 +239,24 @@ public class ControllerTwin
     
     /**
      * 
+     * @param automa
+     * @param level
+     * @return 
+     */
+    public Automa getBadTwin(Automa automa, int level)
+    {
+        if(level == 0) 
+        {
+            return getBadTwinOne(automa);
+        }
+        else
+        {
+            return getBadTwinI(automa, level);
+        }
+    }
+    
+    /**
+     * 
      * @param bad
      * @return 
      */
@@ -261,11 +280,13 @@ public class ControllerTwin
      * @param good
      * @return 
      */
-    public List<SyncTransition> getSyncTwin(Automa bad, Automa good)
+    public SyncAutoma getSyncTwin(Automa bad, Automa good)
     {
         List <SyncTransition> ta = new ArrayList();
         List <SyncTransition> tDue = new ArrayList();
         List <SyncState> sDue = new ArrayList();
+        SyncState so;
+        
         for(State s: good.getStates())
         {
             SyncState coppia = new SyncState(s, s);
@@ -278,10 +299,11 @@ public class ControllerTwin
             tDue.add(coppiaT);
         }
         
+        so = sDue.stream().filter((w) -> (w.getState1().isInitial() && w.getState2().isInitial())).findFirst().get();
         
         if(!ControllerAlphabet.isDeterministic(bad))
         {
-            return ta;
+            return new SyncAutoma(so, sDue, ta);
         }
         else
         {
@@ -345,7 +367,7 @@ public class ControllerTwin
            }
         }
         
-        return ta;
+        return new SyncAutoma(so, sDue, ta);
     }
     
 }

@@ -6,9 +6,9 @@
 package controller.method;
 
 import controller.ControllerTwin;
-import java.util.List;
 import model.Automa;
 import model.Container;
+import model.sync.SyncAutoma;
 import model.sync.SyncTransition;
 
 /**
@@ -39,15 +39,37 @@ public class ControllerFirst
         
         while(i < l)
         {
+            int level = i;
             // Retrieve the bad twin of level i-1 (if i-1 is equal to zero, then perform the bad twin
-            Automa prevBad = container.getBads().computeIfAbsent(i - 1, (a) -> (controllerTwin.getBadTwin(container.getAutoma(), i - 1)));
+            Automa prevBad = container.getBads().computeIfAbsent(level - 1, (a) -> (controllerTwin.getBadTwin(container.getAutoma(), level - 1)));
             // Retrieve or generate the bad twin of level i
-            Automa nextBad = container.getBads().computeIfAbsent(i, (a) -> (controllerTwin.getBadTwin(prevBad, i)));
+            Automa nextBad = container.getBads().computeIfAbsent(level, (a) -> (controllerTwin.getBadTwin(prevBad, level)));
             // Retrieve or generate the good twin of level i
-            Automa nextGood = container.getGoods().computeIfAbsent(i, (a) -> (controllerTwin.getGoodTwin(nextBad)));
+            Automa nextGood = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(nextBad)));
             // Syncrhonized the twins
-            List <SyncTransition> syncTransitions = controllerTwin.getSyncTwin(nextBad, nextGood);
+            SyncAutoma syncTransitions = controllerTwin.getSyncTwin(nextBad, nextGood);
             
+            // Get the first amgiguous transition
+            SyncTransition firstAmbiguous = getFirstAmbiguousTransition();
+            
+            if(isFollowedByInfiniteCicle())
+            {
+                throw new UnsupportedOperationException("Not implemented yet");
+            }
+            
+            i++;
         }
+        
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+    
+    public SyncTransition getFirstAmbiguousTransition()
+    {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+    
+    public boolean isFollowedByInfiniteCicle()
+    {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }

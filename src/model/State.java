@@ -65,7 +65,7 @@ public class State
      */
     public State(String name)
     {
-        this(name, false, false);
+        this(name, true, false);
     }
 
     /**
@@ -115,7 +115,7 @@ public class State
      * 
      * @param isInitial 
      */
-    public void setIsInitial(boolean isInitial) 
+    public void setInitial(boolean isInitial) 
     {
         this.isInitial = isInitial;
     }

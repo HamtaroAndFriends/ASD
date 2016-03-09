@@ -6,6 +6,8 @@
 package controller.method;
 
 import controller.ControllerTwin;
+import java.util.List;
+import java.util.stream.Collectors;
 import model.Automa;
 import model.Container;
 import model.sync.SyncAutoma;
@@ -50,7 +52,7 @@ public class ControllerFirst
             SyncAutoma syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);
             
             // Get the first amgiguous transition
-            SyncTransition firstAmbiguous = getFirstAmbiguousTransition();
+            SyncTransition firstAmbiguous = getFirstAmbiguousTransition(syncAutoma);
             
             if(isFollowedByInfiniteCicle(syncAutoma))
             {
@@ -63,13 +65,27 @@ public class ControllerFirst
         throw new UnsupportedOperationException("Not implemented yet");
     }
     
-    public SyncTransition getFirstAmbiguousTransition()
+    public SyncTransition getFirstAmbiguousTransition(SyncAutoma automa)
     {
+        List <SyncTransition> ambiguous = automa.getTransitions().stream().filter((p) -> (p.isAmbiguous())).collect(Collectors.toList());
+        
+        /**
+         * Definizione.
+         * Per «prima transizione ambigua di un cammino» si intende la prima che 
+         * si incontra seguendo il cammino nell’automa risultante dalla sincronizzazione
+         * (partendo dunque dallo stato iniziale).
+         * 
+         * Non è del tutto chiaro cosa si definisca con cammino dell'automa:
+         * si trova con una DFS o una BFS? Quali eventi preferire?
+         */
+        
         throw new UnsupportedOperationException("Not implemented yet");
     }
     
     public boolean isFollowedByInfiniteCicle(SyncAutoma automa)
     {
+        
+        
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }

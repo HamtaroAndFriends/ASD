@@ -56,7 +56,7 @@ public class ControllerAlphabetTest
     public void testIsDeterministic() 
     {
         ControllerAlphabet alphabet = new ControllerAlphabet();
-        assertTrue(alphabet.isDeterministic(automa));
+        assertTrue(ControllerAlphabet.isDeterministic(automa));
     }
     
 }

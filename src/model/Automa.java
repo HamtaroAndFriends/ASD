@@ -9,7 +9,6 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -65,12 +64,7 @@ public class Automa
      */
     @XmlTransient
     private Supplier <List <Transition>> faults;
-    
-    /**
-     * 
-     */
-    @XmlTransient
-    private Supplier <List <Transition>> ambiguous;
+   
     
     /**
      * 
@@ -83,7 +77,6 @@ public class Automa
         
         this.observables = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isObservable() == true)).collect(Collectors.toList()));
         this.faults = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isFault() == true)).collect(Collectors.toList()));
-        this.ambiguous = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isAmbiguous() == true)).collect(Collectors.toList()));
         this.stateTransitions = new ConcurrentHashMap <> ();
     }
 
@@ -204,24 +197,5 @@ public class Automa
     {
         return transitions.stream().filter((t) -> (t.isFault() == false)).collect(Collectors.toList());
     }
-    
-    /**
-     * This method gets all the ambiguous transitions of the automa.
-     * This method uses a caching system provided by {@link Supplier} class. 
-     * @return 
-     */
-    public List<Transition> getAmbiguous()
-    {
-        return ambiguous.get();
-    }
-    
-    /**
-     * This method gets all the not ambiguous transitions of the automa.
-     * @return 
-     */
-    public List<Transition> getNotAmbiguous()
-    {
-        return transitions.stream().filter((t) -> (t.isAmbiguous() == false)).collect(Collectors.toList());
-    }
-
+   
 }

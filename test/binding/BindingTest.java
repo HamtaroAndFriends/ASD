@@ -60,6 +60,7 @@ public class BindingTest
         
         
         automa = new Automa();
+        automa.setInitial(sa);
         automa.getStates().add(sa);
         automa.getStates().add(sb);
         automa.getStates().add(sc);

@@ -7,22 +7,30 @@ package model.sync;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import model.State;
 
 /**
  *
  * @author Samuele Colombo
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class SyncAutoma 
 {
     /**
      * 
      */
-    private State initial;
+    @XmlElement
+    private SyncState initial;
     
     /**
      * 
      */
+    @XmlElement
     private List <SyncState> states;
     
     /**
@@ -45,7 +53,7 @@ public class SyncAutoma
      * @param states
      * @param transitions 
      */
-    public SyncAutoma(State initial, List <SyncState> states, List <SyncTransition> transitions)
+    public SyncAutoma(SyncState initial, List <SyncState> states, List <SyncTransition> transitions)
     {
         this.initial = initial;
         this.states = states;
@@ -56,7 +64,7 @@ public class SyncAutoma
      * 
      * @return 
      */
-    public State getInitial() 
+    public SyncState getInitial() 
     {
         return initial;
     }
@@ -65,7 +73,7 @@ public class SyncAutoma
      * 
      * @param initial 
      */
-    public void setInitial(State initial) 
+    public void setInitial(SyncState initial) 
     {
         this.initial = initial;
     }

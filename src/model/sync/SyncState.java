@@ -5,15 +5,23 @@
  */
 package model.sync;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import model.State;
 
 /**
  *
  * @author Fede
  */
-public class SyncState extends State
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+public class SyncState
 {
+    @XmlElement
     private State state1;
+    @XmlElement
     private State state2;
     
     public SyncState(State state1, State state2)
@@ -22,19 +30,23 @@ public class SyncState extends State
         this.state2 = state2;
     }
 
-    public State getState1() {
+    public State getState1() 
+    {
         return state1;
     }
 
-    public void setState1(State state1) {
+    public void setState1(State state1)
+    {
         this.state1 = state1;
     }
 
-    public State getState2() {
+    public State getState2()
+    {
         return state2;
     }
 
-    public void setState2(State state2) {
+    public void setState2(State state2) 
+    {
         this.state2 = state2;
     }
     

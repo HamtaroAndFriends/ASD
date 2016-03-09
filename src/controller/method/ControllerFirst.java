@@ -47,12 +47,12 @@ public class ControllerFirst
             // Retrieve or generate the good twin of level i
             Automa nextGood = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(nextBad)));
             // Syncrhonized the twins
-            SyncAutoma syncTransitions = controllerTwin.getSyncTwin(nextBad, nextGood);
+            SyncAutoma syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);
             
             // Get the first amgiguous transition
             SyncTransition firstAmbiguous = getFirstAmbiguousTransition();
             
-            if(isFollowedByInfiniteCicle())
+            if(isFollowedByInfiniteCicle(syncAutoma))
             {
                 throw new UnsupportedOperationException("Not implemented yet");
             }
@@ -68,7 +68,7 @@ public class ControllerFirst
         throw new UnsupportedOperationException("Not implemented yet");
     }
     
-    public boolean isFollowedByInfiniteCicle()
+    public boolean isFollowedByInfiniteCicle(SyncAutoma automa)
     {
         throw new UnsupportedOperationException("Not implemented yet");
     }

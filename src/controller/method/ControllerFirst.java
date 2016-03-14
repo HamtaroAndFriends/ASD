@@ -38,13 +38,12 @@ public class ControllerFirst
     /**
      * 
      * @param container 
+     * @param l 
      * @return  
      */
-    public int performFirstMethod(Container container)
+    public int performFirstMethod(Container container, int l)
     {
         int i = 1;
-        int l = 0;
-        
         
         while(i < l)
         {

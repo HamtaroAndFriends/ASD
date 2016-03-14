@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.HashMap;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -45,7 +46,8 @@ public class Container
      */
     public Container() 
     {
-        
+        bads = new HashMap <> ();
+        goods = new HashMap <> ();   
     }
 
     /**

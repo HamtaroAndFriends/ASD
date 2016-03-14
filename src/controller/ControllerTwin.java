@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
@@ -315,7 +316,24 @@ public class ControllerTwin
            for(State s: good.getStates())
            {
               List <Transition> allT = bad.getTransitions(s);
-              List <Transition> notFaultT = bad.getTransitions(s).stream().filter((a) -> (!a.isFault())).collect(Collectors.toList());
+              List <Transition> notFaultT = bad
+                      .getTransitions(s)
+                      .stream()
+                      .filter((a) -> (!a.isFault()))
+                      .collect(Collectors.toList());
+              
+              /*List <SyncTransition> syncList =
+                      bad
+                      .getTransitions(s)
+                      .stream()
+                      .flatMap(t1 -> bad
+                                .getTransitions(s)
+                                .stream()
+                                //.filter((t2) -> (!t2.isFault() && !t2.equals(t1) && t1.getEvent().equals(t2.getEvent())))
+                                .map(t2 -> new SyncTransition(t1, t2)))
+                      .collect(Collectors.toList());
+            */
+              
               for(Transition t1: allT)
               {
                   for(Transition t2: notFaultT)

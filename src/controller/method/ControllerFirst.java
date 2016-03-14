@@ -76,11 +76,7 @@ public class ControllerFirst
      */
     public boolean isFollowedByAnEndlessLoop(SyncAutoma automa)
     {
-        List <SyncTransition> ambiguous = automa
-                .getTransitions()
-                .stream()
-                .filter((p) -> (p.isAmbiguous()))
-                .collect(Collectors.toList());
+        Set <SyncTransition> ambiguous = getFirstAmiguousTransitions(automa, automa.getInitial());
         
         for(SyncTransition t : ambiguous)
         {
@@ -88,6 +84,31 @@ public class ControllerFirst
         }
         
         return false;
+    }
+    
+    /**
+     * 
+     * @param automa
+     * @param state
+     * @return 
+     */
+    public Set <SyncTransition> getFirstAmiguousTransitions(SyncAutoma automa, SyncState state)
+    {
+        Set <SyncTransition> ambiguous = new HashSet <> ();
+        
+        for(SyncTransition t : automa.getTransitions().stream().filter((s) -> (s.getStart().equals(state))).collect(Collectors.toList()))
+        {
+            if(!t.isAmbiguous())
+            {
+                ambiguous.addAll(getFirstAmiguousTransitions(automa, t.getEnd()));
+            }
+            else
+            {
+                ambiguous.add(t);
+            }
+        }
+        
+        return ambiguous;
     }
     
     

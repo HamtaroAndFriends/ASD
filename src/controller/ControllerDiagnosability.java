@@ -26,6 +26,8 @@ public class ControllerDiagnosability
     }
     
     /**
+     * This function performs the diagnosability C1.
+     * Check if a list of {@link SyncTransition} doesn't contain ambiguous one.
      * 
      * @param syncTransitions
      * @return 
@@ -37,6 +39,7 @@ public class ControllerDiagnosability
     }
     
     /**
+     * This function performs the diagnosability C2.
      * 
      * @param bads
      * @return 
@@ -47,8 +50,10 @@ public class ControllerDiagnosability
         
         int level = 0;
         
+        // Loop over the computed bad twins
         while(bads.containsKey(level))
         {
+            // Check if the current bad twin is deterministic
             if(ControllerAlphabet.isDeterministic(bads.get(level)))
             {
                 level++;
@@ -63,7 +68,7 @@ public class ControllerDiagnosability
     }
     
     /**
-     * 
+     * This function performs the diagnosability C3.
      * @return 
      */
     public boolean isDiagnosabilityC3()

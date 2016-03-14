@@ -6,11 +6,17 @@
 package controller.method;
 
 import controller.ControllerTwin;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 import model.Automa;
 import model.Container;
 import model.sync.SyncAutoma;
+import model.sync.SyncState;
 import model.sync.SyncTransition;
 
 /**
@@ -32,8 +38,9 @@ public class ControllerFirst
     /**
      * 
      * @param container 
+     * @return  
      */
-    public void performFirstMethod(Container container)
+    public int performFirstMethod(Container container)
     {
         int i = 1;
         int l = 0;
@@ -50,42 +57,95 @@ public class ControllerFirst
             Automa nextGood = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(nextBad)));
             // Syncrhonized the twins
             SyncAutoma syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);
-            
-            // Get the first amgiguous transition
-            SyncTransition firstAmbiguous = getFirstAmbiguousTransition(syncAutoma);
-            
-            if(isFollowedByInfiniteCicle(syncAutoma))
+
+            if(isFollowedByAnEndlessLoop(syncAutoma))
             {
-                throw new UnsupportedOperationException("Not implemented yet");
+                return (i - 1);
             }
             
             i++;
         }
         
-        throw new UnsupportedOperationException("Not implemented yet");
+        return -1;
     }
     
-    public SyncTransition getFirstAmbiguousTransition(SyncAutoma automa)
+    /**
+     * 
+     * @param automa
+     * @return 
+     */
+    public boolean isFollowedByAnEndlessLoop(SyncAutoma automa)
     {
-        List <SyncTransition> ambiguous = automa.getTransitions().stream().filter((p) -> (p.isAmbiguous())).collect(Collectors.toList());
+        List <SyncTransition> ambiguous = automa
+                .getTransitions()
+                .stream()
+                .filter((p) -> (p.isAmbiguous()))
+                .collect(Collectors.toList());
         
-        /**
-         * Definizione.
-         * Per «prima transizione ambigua di un cammino» si intende la prima che 
-         * si incontra seguendo il cammino nell’automa risultante dalla sincronizzazione
-         * (partendo dunque dallo stato iniziale).
-         * 
-         * Non è del tutto chiaro cosa si definisca con cammino dell'automa:
-         * si trova con una DFS o una BFS? Quali eventi preferire?
-         */
+        for(SyncTransition t : ambiguous)
+        {
+            if(isFollowedByAnEndlessLoop(automa, t)) return true;
+        }
         
-        throw new UnsupportedOperationException("Not implemented yet");
+        return false;
     }
     
-    public boolean isFollowedByInfiniteCicle(SyncAutoma automa)
+    
+    /**
+     * This method checks if the {@link SyncTransition} is follwed by an endless 
+     * loop.
+     * Worst case O(n^2), usually is O(nk) with k the number of transition linked
+     * by each state.
+     * 
+     * Ogni ciclo presente in qualsivoglia automa considerato (automa di 
+     * partenza, twin, automa risultante dalla sincronizzazione di twin) 
+     * è «infinito»  nel senso che, nell’ambito di un cammino, può essere 
+     * percorso un numero illimitato di volte 
+     * @param automa
+     * @param st
+     * @return 
+     */
+    public boolean isFollowedByAnEndlessLoop(SyncAutoma automa, SyncTransition st)
     {
+        Queue <SyncState> queue = new ConcurrentLinkedQueue <> ();     
+              
+        // To do: check if the start have to been added (in the last one iteration can occur troubles)
+        queue.add(new SyncState(st.getT1().getStart(), st.getT2().getStart()));
+        queue.add(new SyncState(st.getT1().getEnd(), st.getT2().getEnd()));
         
+        // This SyncTransition is in a loop
+        if(queue.size() == 2) return true;
         
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Until the queue is not empty
+        while(!queue.isEmpty())
+        {
+            // Get the last one pushed element
+            SyncState state = queue.poll();
+            
+            // Get all transitions that start with {@link SyncState} state.
+            List <SyncTransition> syncTransition = automa
+                    .getTransitions()
+                    .stream()
+                    .filter((t) -> (t.getStart().equals(state)))
+                    .collect(Collectors.toList());
+            
+            // Loop on all transition from the current state
+            for(SyncTransition t : syncTransition)
+            {
+                if(queue.contains(t.getEnd()))
+                {
+                    return true;
+                }
+                else
+                {
+                    // Otherwise add the element to the queue
+                    queue.add(t.getEnd());
+                }
+            }
+        }
+        
+        return false;
     }
+    
+
 }

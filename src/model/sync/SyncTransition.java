@@ -39,7 +39,12 @@ public class SyncTransition
     {
         this.t1 = t1;
     }
-
+    
+    public SyncState getStart()
+    {
+        return new SyncState(t1.getStart(), t2.getStart());
+    }
+    
     public Transition getT2() 
     {
         return t2;
@@ -48,6 +53,11 @@ public class SyncTransition
     public void setT2(Transition t2)
     {
         this.t2 = t2;
+    }
+    
+    public SyncState getEnd()
+    {
+        return new SyncState(t1.getEnd(), t2.getEnd());
     }
     
     /**

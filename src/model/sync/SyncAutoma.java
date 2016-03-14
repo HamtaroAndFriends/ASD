@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import model.State;
 
 /**
  *
@@ -36,6 +35,7 @@ public class SyncAutoma
     /**
      * 
      */
+    @XmlElement
     private List <SyncTransition> transitions;
     
     /**

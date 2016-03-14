@@ -299,11 +299,15 @@ public class ControllerTwin
             tDue.add(coppiaT);
         }
         
-        so = sDue.stream().filter((w) -> (w.getState1().isInitial() && w.getState2().isInitial())).findFirst().get();
+        so = sDue
+                .stream()
+                .filter((w) -> (w.getState1().isInitial() && w.getState2().isInitial()))
+                .findFirst()
+                .get();
         
         if(!ControllerAlphabet.isDeterministic(bad))
         {
-            return new SyncAutoma(so, sDue, ta);
+            return new SyncAutoma(so, sDue, tDue);
         }
         else
         {

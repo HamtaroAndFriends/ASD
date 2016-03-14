@@ -8,8 +8,8 @@
     <states>
         <states>
             <name>A</name>
-            <isFinal>true</isFinal>
-            <isInitial>false</isInitial>
+            <isFinal>false</isFinal>
+            <isInitial>true</isInitial>
         </states>
         <states>
             <name>B</name>

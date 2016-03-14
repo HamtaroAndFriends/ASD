@@ -19,47 +19,88 @@ import model.Transition;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SyncTransition
 {
+    /**
+     * 
+     */
     @XmlElement
     private Transition t1;
+    
+    /**
+     * 
+     */
     @XmlElement
     private Transition t2;
+
+    /**
+     * This costructor is used from JAXB.
+     */
+    public SyncTransition() { }
     
+    /**
+     * 
+     * @param t1
+     * @param t2 
+     */
     public SyncTransition(Transition t1, Transition t2)
     {
         this.t1 = t1;
         this.t2 = t2;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Transition getT1() 
     {
         return t1;
     }
 
+    /**
+     * 
+     * @param t1 
+     */
     public void setT1(Transition t1) 
     {
         this.t1 = t1;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public SyncState getStart()
     {
         return new SyncState(t1.getStart(), t2.getStart());
     }
     
+    /**
+     * 
+     * @return 
+     */
     public Transition getT2() 
     {
         return t2;
     }
 
+    /**
+     * 
+     * @param t2 
+     */
     public void setT2(Transition t2)
     {
         this.t2 = t2;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public SyncState getEnd()
     {
         return new SyncState(t1.getEnd(), t2.getEnd());
     }
-    
+        
     /**
      * 
      * @return 

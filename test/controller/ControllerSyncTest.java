@@ -8,8 +8,11 @@ package controller;
 import java.io.File;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import model.Automa;
+import model.sync.SyncAutoma;
+import model.sync.SyncState;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,12 +24,12 @@ import static org.junit.Assert.*;
  *
  * @author Samuele Colombo
  */
-public class ControllerTwinTest {
+public class ControllerSyncTest {
     
     private Automa automa;
     private ControllerTwin controller; 
     
-    public ControllerTwinTest() throws JAXBException 
+    public ControllerSyncTest() throws JAXBException 
     {
         JAXBContext context = JAXBContext.newInstance(Automa.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -62,11 +65,16 @@ public class ControllerTwinTest {
      * Test of getSyncTwin method, of class ControllerTwin.
      */
     @Test
-    public void testGetSyncTwin()
+    public void testGetSyncTwin() throws JAXBException
     {
         Automa bad = controller.getBadTwin(automa, 1);
         Automa good = controller.getGoodTwin(bad);
-        controller.getSyncTwin(bad, good);
+        SyncAutoma sync = controller.getSyncTwin(bad, good);
+        
+        JAXBContext context = JAXBContext.newInstance(SyncAutoma.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,  true);
+        marshaller.marshal(sync, System.out);
     }
     
 }

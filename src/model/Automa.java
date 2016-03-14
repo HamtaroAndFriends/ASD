@@ -110,6 +110,8 @@ public class Automa
     public void setInitial(State initial)
     {
         this.initial = initial;
+        this.initial.setFinal(false);
+        this.initial.setInitial(true);
     }
     
     /**

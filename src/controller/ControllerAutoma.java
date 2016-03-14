@@ -22,6 +22,7 @@ public class ControllerAutoma {
         List<State> statiAutoma= daControllare.getStates();
         List<Transition> transizioniOsservabili= daControllare.getObservables();
         List<Transition> transizioniGuasto= daControllare.getFaults();
+        List<Transition> transizioniNonOsservabili= daControllare.getNotObservables();
         List<Transition> transizioni=new ArrayList<>();
         if(transizioniGuasto.size()!=0){
             transizioni.addAll(transizioniGuasto);
@@ -29,14 +30,37 @@ public class ControllerAutoma {
         if(transizioniOsservabili.size()!=0){
             transizioni.addAll(transizioniOsservabili);
         }
+        if(transizioniNonOsservabili.size()!=0){
+            transizioni.addAll(transizioniNonOsservabili);
+        }
         List<State> statiInizialiTransizioni=statiTransizioni(transizioni,0);
-        List<State> statiFinaliTransizoni=statiTransizioni(transizioni,1);
+        List<State> statiFinaliTransizioni=statiTransizioni(transizioni,1);
         List<State> statiInizialiOsservabili=statiTransizioni(transizioniOsservabili,0);
+        /*System.out.println("\nstatiautoma\n");
+        stampa(statiAutoma);
+        System.out.println("\ntransizioniGiuste\n");
+        stampa(transizioniOsservabili);
+        System.out.println("\ntransizioniGuasto\n");
+        stampa(transizioniGuasto);
+        System.out.println("\ntransizioni\n");
+        stampa(transizioni);
+        System.out.println("\nstatiiniziali\n");
+        stampa(statiInizialiTransizioni);
+        System.out.println("\nfinali\n");
+        stampa(statiFinaliTransizioni);
+        System.out.println("\nosservabili\n");
+        stampa(statiInizialiOsservabili);*/
         vivo=confrontoStatiIniziali(statiAutoma,statiInizialiTransizioni);
         if(vivo){
             vivo=raggiungoOsservabile(transizioniGuasto,statiInizialiOsservabili);
         }
         return vivo;
+    }
+    
+    public void stampa(List l){
+        for(int i=0;i<l.size();i++){
+            System.out.println(l.get(i));
+        }
     }
     
     public List<State> statiTransizioni(List<Transition> t,int iF){// se iF=0 ritorna stati inziiali, se iF=1 ritorna stati finali

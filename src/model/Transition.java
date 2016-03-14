@@ -223,6 +223,8 @@ public class Transition
     }
 
 
- 
+  public String toString(){
+        return "Tranizione,Iniziale:"+start+" Finale:"+end+" isguasto:"+isFault;
+    }
     
 }

@@ -47,14 +47,14 @@ public class ControllerDiagnosability
      * @param bads
      * @return 
      */
-    public int isDiagnosabilityC2(Map <Integer, Automa> bads)
+    public boolean isDiagnosabilityC2(Map <Integer, Automa> bads)
     {   
         // To do: che significa " fino al livello considerato"
-        
+        boolean isC2=true;
         int level = 0;
         
         // Loop over the computed bad twins
-        while(bads.containsKey(level))
+        while(bads.containsKey(level) && isC2)
         {
             // Check if the current bad twin is deterministic
             if(ControllerAlphabet.isDeterministic(bads.get(level)))
@@ -63,11 +63,11 @@ public class ControllerDiagnosability
             }
             else
             {
-                return level;
+                isC2=false;
             }
         }
         
-        return level;
+        return isC2;
     }
     
     /**

@@ -29,7 +29,12 @@ public class ControllerAlphabet
     {
         for(State s : automa.getStates())
         {
-            List <Event> events = automa.getTransitions(s).stream().map((t) -> (t.getEvent())).collect(Collectors.toList());
+            List <Event> events = automa
+                    .getTransitions(s)
+                    .stream()
+                    .map((t) -> (t.getEvent()))
+                    .collect(Collectors.toList());
+            
             if(Sets.newHashSet(events).size() != events.size()) return false;
         }
         

@@ -327,7 +327,7 @@ public class ControllerTwin
               {
                   for(Transition t2: notFaultT)
                   {
-                      if(t1.getEvent().equals(t2.getEvent()) && !t1.equals(t2))
+                      if(t1.getEvent().equals(t2.getEvent()) && t1.isObservable() && !t1.equals(t2))
                       {
                           SyncTransition t12 = new SyncTransition(t1,t2);
                           SyncState s12 = new SyncState(t1.getEnd(),t2.getEnd());
@@ -342,7 +342,6 @@ public class ControllerTwin
               }
               
            }
-           
            
            
            
@@ -363,9 +362,7 @@ public class ControllerTwin
                    {
                        for(Transition t2: notFaultT)
                        {
-                           t1.toString();
-                           t2.toString();
-                           if(t1.getEvent().equals(t2.getEvent()) && !t1.equals(t2))
+                           if(t1.getEvent().equals(t2.getEvent()) && t1.isObservable() && !t1.equals(t2))
                            {
                                SyncTransition t12 = new SyncTransition(t1,t2);
                                SyncState sAB = new SyncState(t1.getEnd(),t2.getEnd());

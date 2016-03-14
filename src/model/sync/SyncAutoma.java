@@ -41,10 +41,17 @@ public class SyncAutoma
     /**
      * 
      */
+    @XmlElement
+    private List <SyncTransition> ambiguous;
+            
+    /**
+     * 
+     */
     public SyncAutoma()
     {
         this.states = new ArrayList <> ();
         this.transitions = new ArrayList <> ();
+        this.ambiguous = new ArrayList <> ();
     }
     
     /**
@@ -53,11 +60,12 @@ public class SyncAutoma
      * @param states
      * @param transitions 
      */
-    public SyncAutoma(SyncState initial, List <SyncState> states, List <SyncTransition> transitions)
+    public SyncAutoma(SyncState initial, List <SyncState> states, List <SyncTransition> transitions, List <SyncTransition> ambiguous)
     {
         this.initial = initial;
         this.states = states;
         this.transitions = transitions;
+        this.ambiguous = ambiguous;
     }
 
     /**
@@ -113,6 +121,24 @@ public class SyncAutoma
     {
         this.transitions = transitions;
     }
+
+    /**
+     * 
+     * @return 
+     */
+    public List<SyncTransition> getAmbiguous() {
+        return ambiguous;
+    }
+
+    /**
+     * 
+     * @param ambiguous 
+     */
+    public void setAmbiguous(List<SyncTransition> ambiguous) {
+        this.ambiguous = ambiguous;
+    }
+    
+    
     
     
 }

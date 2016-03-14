@@ -246,7 +246,7 @@ public class ControllerTwin
      */
     public Automa getBadTwin(Automa automa, int level)
     {
-        if(level == 0) 
+        if(level == 1) 
         {
             return getBadTwinOne(automa);
         }
@@ -306,9 +306,9 @@ public class ControllerTwin
                 .findFirst()
                 .get();
         
-        if(!ControllerAlphabet.isDeterministic(bad))
+        if(ControllerAlphabet.isDeterministic(bad))
         {
-            return new SyncAutoma(so, sDue, tDue);
+            return new SyncAutoma(so, sDue, tDue, ta);
         }
         else
         {
@@ -322,23 +322,12 @@ public class ControllerTwin
                       .filter((a) -> (!a.isFault()))
                       .collect(Collectors.toList());
               
-              /*List <SyncTransition> syncList =
-                      bad
-                      .getTransitions(s)
-                      .stream()
-                      .flatMap(t1 -> bad
-                                .getTransitions(s)
-                                .stream()
-                                //.filter((t2) -> (!t2.isFault() && !t2.equals(t1) && t1.getEvent().equals(t2.getEvent())))
-                                .map(t2 -> new SyncTransition(t1, t2)))
-                      .collect(Collectors.toList());
-            */
               
               for(Transition t1: allT)
               {
                   for(Transition t2: notFaultT)
                   {
-                      if(t1.getEvent().equals(t2.getEvent()))
+                      if(t1.getEvent().equals(t2.getEvent()) && !t1.equals(t2))
                       {
                           SyncTransition t12 = new SyncTransition(t1,t2);
                           SyncState s12 = new SyncState(t1.getEnd(),t2.getEnd());
@@ -353,6 +342,9 @@ public class ControllerTwin
               }
               
            }
+           
+           
+           
            
            while(!sDue.equals(sPrev))
            {
@@ -371,7 +363,9 @@ public class ControllerTwin
                    {
                        for(Transition t2: notFaultT)
                        {
-                           if(t1.getEvent().equals(t2.getEvent()))
+                           t1.toString();
+                           t2.toString();
+                           if(t1.getEvent().equals(t2.getEvent()) && !t1.equals(t2))
                            {
                                SyncTransition t12 = new SyncTransition(t1,t2);
                                SyncState sAB = new SyncState(t1.getEnd(),t2.getEnd());
@@ -389,7 +383,7 @@ public class ControllerTwin
            }
         }
         
-        return new SyncAutoma(so, sDue, ta);
+        return new SyncAutoma(so, sDue, tDue, ta);
     }
     
 }

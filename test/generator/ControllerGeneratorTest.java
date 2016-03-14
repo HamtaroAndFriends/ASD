@@ -6,6 +6,9 @@
 package generator;
 
 import controller.generator.ControllerGenerator;
+import java.io.File;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -61,7 +64,10 @@ public class ControllerGeneratorTest
         JAXBContext context = JAXBContext.newInstance(Automa.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,  true);
-        marshaller.marshal(automa, System.out);
+        
+        SecureRandom rand = new SecureRandom();
+        File file = new File("test/generator/" + (new BigInteger(64, rand).toString(32) + ".xml"));
+        marshaller.marshal(automa, file);
     }
 
     /**

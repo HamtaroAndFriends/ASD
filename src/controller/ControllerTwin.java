@@ -44,7 +44,7 @@ public class ControllerTwin
     public Automa getBadTwinOne(Automa automa)
     {
         // Get the list of the state of the automa
-        Set <State> s1 = automa.getStates();
+        Set <State> s1 = new HashSet(automa.getStates());
         // Get the initial state of the automa
         State so1 = automa.getInitial();
         // Get the list of all observable transitions
@@ -249,7 +249,7 @@ public class ControllerTwin
      */
     public Automa getBadTwin(Automa automa, int level)
     {
-        if(level == 1) 
+        if(level == 0) 
         {
             return getBadTwinOne(automa);
         }

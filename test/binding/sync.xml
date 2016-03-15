@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<syncAutoma>
+    <initial>
+        <state1 name="A" isInitial="true"/>
+        <state2 name="A" isInitial="true"/>
+    </initial>
+    <states>
+        <state1 name="C" isInitial="false"/>
+        <state2 name="C" isInitial="false"/>
+    </states>
+    <states>
+        <state1 name="D" isInitial="false"/>
+        <state2 name="D" isInitial="false"/>
+    </states>
+    <states>
+        <state1 name="E" isInitial="false"/>
+        <state2 name="E" isInitial="false"/>
+    </states>
+    <states>
+        <state1 name="A" isInitial="true"/>
+        <state2 name="A" isInitial="true"/>
+    </states>
+    <states>
+        <state1 name="B" isInitial="false"/>
+        <state2 name="B" isInitial="false"/>
+    </states>
+    <states>
+        <state1 name="F" isInitial="false"/>
+        <state2 name="F" isInitial="false"/>
+    </states>
+    <transitions>
+        <t1>
+            <start name="E" isInitial="false"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="E" isInitial="false"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="A" isInitial="true"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="A" isInitial="true"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="B" isInitial="false"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="B" isInitial="false"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="C" isInitial="false"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="C" isInitial="false"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="E" isInitial="false"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="E" isInitial="false"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="B" isInitial="false"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="B" isInitial="false"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="A" isInitial="true"/>
+            <end name="E" isInitial="false"/>
+            <event>
+                <events>
+                    <events>d</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="A" isInitial="true"/>
+            <end name="E" isInitial="false"/>
+            <event>
+                <events>
+                    <events>d</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="B" isInitial="false"/>
+            <end name="A" isInitial="true"/>
+            <event>
+                <events/>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>false</isObservable>
+        </t1>
+        <t2>
+            <start name="B" isInitial="false"/>
+            <end name="A" isInitial="true"/>
+            <event>
+                <events/>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>false</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="B" isInitial="false"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="B" isInitial="false"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="F" isInitial="false"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="F" isInitial="false"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="B" isInitial="false"/>
+            <end name="E" isInitial="false"/>
+            <event>
+                <events>
+                    <events>d</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="B" isInitial="false"/>
+            <end name="E" isInitial="false"/>
+            <event>
+                <events>
+                    <events>d</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="B" isInitial="false"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="B" isInitial="false"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="A" isInitial="true"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="A" isInitial="true"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="B" isInitial="false"/>
+            <end name="B" isInitial="false"/>
+            <event>
+                <events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="B" isInitial="false"/>
+            <end name="B" isInitial="false"/>
+            <event>
+                <events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="B" isInitial="false"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="B" isInitial="false"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="C" isInitial="false"/>
+            <end name="B" isInitial="false"/>
+            <event>
+                <events>
+                    <events>b</events>
+                    <events>d</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="C" isInitial="false"/>
+            <end name="B" isInitial="false"/>
+            <event>
+                <events>
+                    <events>b</events>
+                    <events>d</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="D" isInitial="false"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="D" isInitial="false"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="A" isInitial="true"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="A" isInitial="true"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="C" isInitial="false"/>
+            <end name="E" isInitial="false"/>
+            <event>
+                <events>
+                    <events>d</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="C" isInitial="false"/>
+            <end name="E" isInitial="false"/>
+            <event>
+                <events>
+                    <events>d</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="A" isInitial="true"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="A" isInitial="true"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="B" isInitial="false"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events/>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>false</isObservable>
+        </t1>
+        <t2>
+            <start name="B" isInitial="false"/>
+            <end name="D" isInitial="false"/>
+            <event>
+                <events/>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>false</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="E" isInitial="false"/>
+            <end name="B" isInitial="false"/>
+            <event>
+                <events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="E" isInitial="false"/>
+            <end name="B" isInitial="false"/>
+            <event>
+                <events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="E" isInitial="false"/>
+            <end name="A" isInitial="true"/>
+            <event>
+                <events/>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>false</isObservable>
+        </t1>
+        <t2>
+            <start name="E" isInitial="false"/>
+            <end name="A" isInitial="true"/>
+            <event>
+                <events/>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>false</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="E" isInitial="false"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="E" isInitial="false"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="E" isInitial="false"/>
+            <end name="E" isInitial="false"/>
+            <event>
+                <events>
+                    <events>d</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="E" isInitial="false"/>
+            <end name="E" isInitial="false"/>
+            <event>
+                <events>
+                    <events>d</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="E" isInitial="false"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="E" isInitial="false"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events>
+                    <events>c</events>
+                    <events>a</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="C" isInitial="false"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events/>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>false</isObservable>
+        </t1>
+        <t2>
+            <start name="C" isInitial="false"/>
+            <end name="F" isInitial="false"/>
+            <event>
+                <events/>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>false</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="C" isInitial="false"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                    <events>d</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="C" isInitial="false"/>
+            <end name="C" isInitial="false"/>
+            <event>
+                <events>
+                    <events>a</events>
+                    <events>d</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+    <transitions>
+        <t1>
+            <start name="A" isInitial="true"/>
+            <end name="B" isInitial="false"/>
+            <event>
+                <events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t1>
+        <t2>
+            <start name="A" isInitial="true"/>
+            <end name="B" isInitial="false"/>
+            <event>
+                <events>
+                    <events>b</events>
+                </events>
+            </event>
+            <isFault>false</isFault>
+            <isObservable>true</isObservable>
+        </t2>
+        <ambiguous>false</ambiguous>
+    </transitions>
+</syncAutoma>

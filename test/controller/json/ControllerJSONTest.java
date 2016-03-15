@@ -32,7 +32,7 @@ public class ControllerJSONTest {
     {
         JAXBContext context = JAXBContext.newInstance(Automa.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        File file = new File("test/binding/example1.xml");
+        File file = new File("test/binding/sync.xml");
         automa = (Automa) unmarshaller.unmarshal(file);
         controller = new ControllerJSON();
     }

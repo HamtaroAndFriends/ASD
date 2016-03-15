@@ -7,14 +7,18 @@ package controller.method;
 
 import controller.ControllerDiagnosability;
 import controller.ControllerTwin;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 import model.Automa;
 import model.Container;
+import model.Transition;
 import model.sync.SyncAutoma;
 import model.sync.SyncState;
 import model.sync.SyncTransition;
@@ -23,14 +27,16 @@ import model.sync.SyncTransition;
  *
  * @author Andrea
  */
-public class ControllerSecond {
+public class ControllerThird {
 
     private ControllerTwin controllerTwin;
+    private Map<Integer, List<Transition>> transizioniAggiunte = new HashMap<>();
+    private Map<Integer, SyncAutoma> automiSincronizzati = new HashMap<>();
 
     /**
      *
      */
-    public ControllerSecond() {
+    public ControllerThird() {
         this.controllerTwin = new ControllerTwin();
     }
 
@@ -39,41 +45,51 @@ public class ControllerSecond {
      * @param container
      * @return
      */
-    public int performSecondMethod(Container container, int l) {
+    public int performThirdMethod(Container container, int l) {
         int i = 1;
-
+        ControllerDiagnosability cd = new ControllerDiagnosability();
         while (i < l) {
             int level = i;
             // Retrieve the bad twin of level i-1 (if i-1 is equal to zero, then perform the bad twin
             Automa prevBad = container.getBads().computeIfAbsent(level - 1, (a) -> (controllerTwin.getBadTwin(container.getAutoma(), level - 1)));
             // Retrieve or generate the bad twin of level i
             Automa nextBad = container.getBads().computeIfAbsent(level, (a) -> (controllerTwin.getBadTwin(prevBad, level)));
-            ControllerDiagnosability cd = new ControllerDiagnosability();
+
+            if (i > 1) {
+                List<Transition> tPrev = prevBad.getTransitions();
+                List<Transition> tNext = nextBad.getTransitions();
+                tNext.retainAll(tPrev);//retainAll leva da tNext le transizioni che erano presenti anche in tPrev
+                transizioniAggiunte.put(i, tNext);
+            }
             if (cd.isDiagnosabilityC3(container.getBads()) || cd.isDiagnosabilityC2(container.getBads())) {
                 i++;
             } else {
-                // Retrieve or generate the good twin of level i
-                Automa nextGood = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(nextBad)));
-                // Syncrhonized the twins
-                SyncAutoma syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood); // metodo1 di sincronizzazione
+                SyncAutoma syncAutoma = new SyncAutoma();
+                if (i == 1) {
+                    Automa nextGood = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(nextBad)));
+                    syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);//metodo1 di sincronizzazione
+
+                } else {
+                    syncAutoma = controllerTwin.getSyncTwin2(automiSincronizzati.get(i - 1), transizioniAggiunte.get(i));//metodo2 si sincronizzazione
+
+                }
+                automiSincronizzati.put(i, syncAutoma);
                 List <SyncTransition> lst=syncAutoma.getTransitions();
                 if(cd.isDiagnosabilityC1(lst)){
                     i++;
                 }else{
-                    if (isFollowedByAnEndlessLoop(syncAutoma)) {
-                    return (i - 1);
+                    
+                   if (isFollowedByAnEndlessLoop(syncAutoma)) {
+                    return (i - 1); 
+                   }
                 }
-
-                }
-                
             }
-
         }
 
         return i;
     }
-    
-    public boolean isFollowedByAnEndlessLoop(SyncAutoma automa)
+        
+      public boolean isFollowedByAnEndlessLoop(SyncAutoma automa)
     {
         Set <SyncTransition> ambiguous = getFirstAmiguousTransitions(automa, automa.getInitial());
         
@@ -146,6 +162,5 @@ public class ControllerSecond {
         return false;
     }
     
-
 
 }

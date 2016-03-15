@@ -67,9 +67,11 @@ public class ControllerSyncTest {
     @Test
     public void testGetSyncTwin() throws JAXBException
     {
-        Automa bad = controller.getBadTwin(automa, 1);
-        Automa good = controller.getGoodTwin(bad);
-        SyncAutoma sync = controller.getSyncTwin(bad, good);
+        Automa bad1 = controller.getBadTwin(automa, 1);
+        Automa bad2 = controller.getBadTwin(bad1, 2);
+        Automa bad3 = controller.getBadTwin(bad2, 3);
+        Automa good3 = controller.getGoodTwin(bad3);
+        SyncAutoma sync = controller.getSyncTwin(bad3, good3);
         
         JAXBContext context = JAXBContext.newInstance(SyncAutoma.class);
         Marshaller marshaller = context.createMarshaller();

@@ -281,6 +281,11 @@ public class ControllerTwin
      * @param good
      * @return 
      */
+    public SyncAutoma getSyncTwin2(SyncAutoma sa,List<Transition> ti){
+        return sa;
+    }
+    
+    
     public SyncAutoma getSyncTwin(Automa bad, Automa good)
     {
         List <SyncTransition> ta = new ArrayList();

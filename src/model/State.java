@@ -165,7 +165,9 @@ public class State
         return true;
     }
 
-
+    public String toString(){
+        return "Stato:"+name;
+    }
     
     
 }

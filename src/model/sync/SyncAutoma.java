@@ -5,8 +5,11 @@
  */
 package model.sync;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -42,7 +45,7 @@ public class SyncAutoma
      * 
      */
     @XmlElement
-    private List <SyncTransition> ambiguous;
+    private Supplier <List <SyncTransition>> ambiguous;
             
     /**
      * 
@@ -65,7 +68,7 @@ public class SyncAutoma
         this.initial = initial;
         this.states = states;
         this.transitions = transitions;
-        this.ambiguous = new ArrayList <> ();
+        this.ambiguous = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toList()));
     }
     
     /**
@@ -74,13 +77,14 @@ public class SyncAutoma
      * @param states
      * @param transitions 
      * @param ambiguous 
+     * @deprecated 
      */
     public SyncAutoma(SyncState initial, List <SyncState> states, List <SyncTransition> transitions, List <SyncTransition> ambiguous)
     {
         this.initial = initial;
         this.states = states;
         this.transitions = transitions;
-        this.ambiguous = ambiguous;
+        this.ambiguous = Suppliers.memoize(() -> ambiguous));
     }
 
     /**
@@ -141,15 +145,18 @@ public class SyncAutoma
      * 
      * @return 
      */
-    public List<SyncTransition> getAmbiguous() {
-        return ambiguous;
+    public List<SyncTransition> getAmbiguous() 
+    {
+        return ambiguous.get();
     }
 
     /**
      * 
      * @param ambiguous 
+     * @deprecated
      */
-    public void setAmbiguous(List<SyncTransition> ambiguous) {
+    public void setAmbiguous(List<SyncTransition> ambiguous) 
+    {
         this.ambiguous = ambiguous;
     }
     

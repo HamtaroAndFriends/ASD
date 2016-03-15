@@ -8,6 +8,7 @@ package controller;
 import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -300,6 +301,24 @@ public class ControllerTwin
             tDue.add(coppiaT);
         }
         
+        Set <SyncTransition> taset = new HashSet();
+        Set <SyncTransition> tDueset = new HashSet();
+        Set <SyncState> sDueset = new HashSet(); 
+        
+        taset.addAll(ta);
+        tDueset.addAll(tDue);
+        sDueset.addAll(sDue);
+        ta.clear();
+        tDue.clear();
+        sDue.clear();
+        ta.addAll(taset);
+        tDue.addAll(tDueset);
+        sDue.addAll(sDueset);
+        
+        // **************************************
+        // da 304 a 316 per rimuovere i duplicati
+        // **************************************
+        
         so = sDue
                 .stream()
                 .filter((w) -> (w.getState1().isInitial() && w.getState2().isInitial()))
@@ -325,8 +344,12 @@ public class ControllerTwin
               
               for(Transition t1: allT)
               {
+               System.out.println();
+                  
                   for(Transition t2: notFaultT)
                   {
+                      if(t1.getStart().equals(t2.getStart()) && t1.getEnd().equals(t2.getEnd()) && t1.isFault())
+                          System.out.println();
                       if(t1.getEvent().equals(t2.getEvent()) && t1.isObservable() && !t1.equals(t2))
                       {
                           SyncTransition t12 = new SyncTransition(t1,t2);
@@ -379,7 +402,7 @@ public class ControllerTwin
                }
            }
         }
-        
+        System.out.println();
         return new SyncAutoma(so, sDue, tDue, ta);
     }
     

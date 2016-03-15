@@ -204,11 +204,14 @@ public class Transition
         
         final Transition other = (Transition) obj;
         
-        if (!Objects.equals(this.start, other.start) || !Objects.equals(this.end, other.end) ||
-                !Objects.equals(this.event, other.event) || this.isFault != other.isFault)
-        {
+        if (!Objects.equals(this.start, other.start))
             return false;
-        }
+        if(!Objects.equals(this.end, other.end))
+            return false;
+        if(!Objects.equals(this.event, other.event))
+            return false;
+        if(this.isFault() != other.isFault())
+            return false;
         
         return true;
     }

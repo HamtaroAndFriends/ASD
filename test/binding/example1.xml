@@ -41,13 +41,8 @@
         <transitions>
             <start>
                 <name>A</name>
-<<<<<<< HEAD
-                <isFinal>false</isFinal>
-                <isInitial>true</isInitial>
-=======
                 <isFinal>true</isFinal>
                 <isInitial>false</isInitial>
->>>>>>> 9fe64efe1ea1ec38f3b8e48a60d8f1fb9d8bca27
             </start>
             <end>
                 <name>B</name>

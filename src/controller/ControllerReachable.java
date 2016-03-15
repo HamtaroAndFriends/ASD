@@ -10,23 +10,18 @@ package controller;
  * @author Federico Danesi
  */
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
+import java.util.Set;
 import model.Automa;
-import model.Event;
 import model.State;
 import model.Transition;
 
 
 public class ControllerReachable
 {
-    public List <State> getReachable(Automa evil)
+    public Set <State> getReachable(Automa evil)
     {
-        List states = evil.getStates();
+        Set states = evil.getStates();
         
         for(Transition tf : evil.getFaults())
         {

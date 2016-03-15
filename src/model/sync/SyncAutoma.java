@@ -7,8 +7,8 @@ package model.sync;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,28 +33,28 @@ public class SyncAutoma
      * 
      */
     @XmlElement
-    private List <SyncState> states;
+    private Set <SyncState> states;
     
     /**
      * 
      */
     @XmlElement
-    private List <SyncTransition> transitions;
+    private Set <SyncTransition> transitions;
     
     /**
      * 
      */
     @XmlElement
-    private Supplier <List <SyncTransition>> ambiguous;
+    private Supplier <Set <SyncTransition>> ambiguous;
             
     /**
      * 
      */
     public SyncAutoma()
     {
-        this.states = new ArrayList <> ();
-        this.transitions = new ArrayList <> ();
-        this.ambiguous =  Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toList()));
+        this.states = new HashSet <> ();
+        this.transitions = new HashSet <> ();
+        this.ambiguous =  Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toSet()));
     }
     
     /**
@@ -63,12 +63,12 @@ public class SyncAutoma
      * @param states
      * @param transitions 
      */
-    public SyncAutoma(SyncState initial, List <SyncState> states, List <SyncTransition> transitions)
+    public SyncAutoma(SyncState initial, Set <SyncState> states, Set <SyncTransition> transitions)
     {
         this.initial = initial;
         this.states = states;
         this.transitions = transitions;
-        this.ambiguous = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toList()));
+        this.ambiguous = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toSet()));
     }
     
     /**
@@ -79,12 +79,12 @@ public class SyncAutoma
      * @param ambiguous 
      * @deprecated 
      */
-    public SyncAutoma(SyncState initial, List <SyncState> states, List <SyncTransition> transitions, List <SyncTransition> ambiguous)
+    public SyncAutoma(SyncState initial, Set <SyncState> states, Set <SyncTransition> transitions, Set <SyncTransition> ambiguous)
     {
         this.initial = initial;
         this.states = states;
         this.transitions = transitions;
-        this.ambiguous = Suppliers.memoize(() -> ambiguous));
+        this.ambiguous = Suppliers.memoize(() -> ambiguous);
     }
 
     /**
@@ -109,7 +109,7 @@ public class SyncAutoma
      * 
      * @return 
      */
-    public List<SyncState> getStates()
+    public Set<SyncState> getStates()
     {
         return states;
     }
@@ -118,7 +118,7 @@ public class SyncAutoma
      * 
      * @param states 
      */
-    public void setStates(List<SyncState> states) 
+    public void setStates(Set<SyncState> states) 
     {
         this.states = states;
     }
@@ -127,7 +127,7 @@ public class SyncAutoma
      * 
      * @return 
      */
-    public List<SyncTransition> getTransitions()
+    public Set<SyncTransition> getTransitions()
     {
         return transitions;
     }
@@ -136,7 +136,7 @@ public class SyncAutoma
      * 
      * @param transitions 
      */
-    public void setTransitions(List<SyncTransition> transitions) 
+    public void setTransitions(Set<SyncTransition> transitions) 
     {
         this.transitions = transitions;
     }
@@ -145,7 +145,7 @@ public class SyncAutoma
      * 
      * @return 
      */
-    public List<SyncTransition> getAmbiguous() 
+    public Set<SyncTransition> getAmbiguous() 
     {
         return ambiguous.get();
     }
@@ -155,9 +155,9 @@ public class SyncAutoma
      * @param ambiguous 
      * @deprecated
      */
-    public void setAmbiguous(List<SyncTransition> ambiguous) 
+    public void setAmbiguous(Set<SyncTransition> ambiguous) 
     {
-        this.ambiguous = ambiguous;
+        //this.ambiguous = ambiguous;
     }
   
 }

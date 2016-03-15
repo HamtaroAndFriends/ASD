@@ -5,8 +5,8 @@
  */
 package service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Set;
 import java.util.stream.Collectors;
 import model.Transition;
@@ -20,12 +20,12 @@ import model.sync.SyncTransition;
  */
 public class ServiceSyncTwinSecond 
 {
-    public SyncAutoma getSyncTwin2(SyncAutoma x, List <Transition> ti)
+    public SyncAutoma getSyncTwin2(SyncAutoma x, Set <Transition> ti)
     {
-        List <SyncTransition> ta = x.getTransitions().stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toList());
-        List <SyncTransition> tTwo = x.getTransitions();
-        List <SyncState> sTwo = x.getStates();
-        List <SyncState> sTemp = new ArrayList <> (sTwo);
+        Set <SyncTransition> ta = x.getTransitions().stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toSet());
+        Set <SyncTransition> tTwo = x.getTransitions();
+        Set <SyncState> sTwo = x.getStates();
+        Set <SyncState> sTemp = new HashSet <> (sTwo);
         
         for(SyncState sasb : x.getStates())
         {
@@ -33,7 +33,7 @@ public class ServiceSyncTwinSecond
                     ti
                     .stream()
                     .flatMap((t1) -> (ti.stream().map((t2) -> new SyncTransition(t1, t2))))
-                    .collect(Collectors.toList())
+                    .collect(Collectors.toSet())
                     .stream()
                     .filter((t) -> (
                             t.getT1().getStart().equals(sasb.getState1()) 
@@ -55,8 +55,8 @@ public class ServiceSyncTwinSecond
         
         while(!sTemp.equals(sTwo))
         {
-            List <SyncState> sTempFinal = sTemp;
-            List <SyncState> diff = sTwo.stream().filter((s) -> (sTempFinal.contains(s))).collect(Collectors.toList());
+            Set <SyncState> sTempFinal = sTemp;
+            Set <SyncState> diff = sTwo.stream().filter((s) -> (sTempFinal.contains(s))).collect(Collectors.toSet());
             sTemp = sTwo;
             
             for(SyncState sasb : diff)
@@ -65,7 +65,7 @@ public class ServiceSyncTwinSecond
                     ti
                     .stream()
                     .flatMap((t1) -> (ti.stream().map((t2) -> new SyncTransition(t1, t2))))
-                    .collect(Collectors.toList())
+                    .collect(Collectors.toSet())
                     .stream()
                     .filter((t) -> (
                             t.getT1().getStart().equals(sasb.getState1()) 

@@ -7,9 +7,11 @@ package controller;
 
 import com.google.common.collect.Sets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,13 +44,13 @@ public class ControllerTwin
     public Automa getBadTwinOne(Automa automa)
     {
         // Get the list of the state of the automa
-        List <State> s1 = automa.getStates();
+        Set <State> s1 = automa.getStates();
         // Get the initial state of the automa
         State so1 = automa.getInitial();
         // Get the list of all observable transitions
-        List <Transition> to = automa.getObservables();
+        Set <Transition> to = automa.getObservables();
         // Get the list of all fault transitions
-        List <Transition> tf = new ArrayList <> ();
+        Set <Transition> tf = new HashSet <> ();
         // Fault parameter
         boolean fault;
 
@@ -57,13 +59,13 @@ public class ControllerTwin
         {
             
             // Foreach transition in the fault list that starts from s and reaches sd
-            for(Transition t : automa.getTransitions(s).stream().filter((p) -> (p.isObservable() == false)).collect(Collectors.toList()))
+            for(Transition t : automa.getTransitions(s).stream().filter((p) -> (p.isObservable() == false)).collect(Collectors.toSet()))
             {
                 // Set fault if the transition is a fault one
                 fault = automa.getFaults().contains(t);
 
                 // Define the list of the tuples
-                List <List <Object>> tuples = find(automa, t.getEnd(), 1, fault, new Event());
+                Set <List <Object>> tuples = find(automa, t.getEnd(), 1, fault, new Event());
 
                 // Foreach triple in the list
                 for(List <Object> tuple : tuples)
@@ -84,7 +86,7 @@ public class ControllerTwin
         }
         
         // Define the complete list of the transitions
-        List <Transition> ta = new ArrayList <> ();
+        Set <Transition> ta = new HashSet <> ();
         // Add all observable transitions
         ta.addAll(to);
         // Add all fault transitions
@@ -105,10 +107,10 @@ public class ControllerTwin
      * @param ot
      * @return 
      */
-    public List <List<Object>> find(Automa automa, State s, int n, boolean fault, Event ot)
+    public Set <List<Object>> find(Automa automa, State s, int n, boolean fault, Event ot)
     {
         // Define the list of the tuples
-        List <List <Object>> tuples = new ArrayList <> ();
+        Set <List <Object>> tuples = new HashSet <> ();
         // Define the variabile fault'
         boolean fault1;
         
@@ -149,14 +151,14 @@ public class ControllerTwin
                 }
                 else
                 {
-                    List <List <Object>> result = find(automa, t.getEnd(), n - o.getEvents().size(), fault1, oot);
+                    Set <List <Object>> result = find(automa, t.getEnd(), n - o.getEvents().size(), fault1, oot);
                     tuples.addAll(result);
                 }
             }
             
             if(!automa.getObservables().contains(t))
             {
-                List <List <Object>> result = find(automa, t.getEnd(), n, fault1, ot);
+                Set <List <Object>> result = find(automa, t.getEnd(), n, fault1, ot);
                 tuples.addAll(result);
             }
         }
@@ -173,9 +175,9 @@ public class ControllerTwin
     public Automa getBadTwinI(Automa bad, int i)
     {
         // The list of the transitions of the previous bad twin
-        List <Transition> t1 = bad.getTransitions();
+        Set <Transition> t1 = bad.getTransitions();
         // The list of the fault transitions of the previous bad twin
-        List <Transition> tf = bad.getFaults();
+        Set <Transition> tf = bad.getFaults();
         
         boolean fault;
         
@@ -188,7 +190,7 @@ public class ControllerTwin
                 
                 Event ot = t.getEvent();
                 
-                List <List <Object>> tuples = find(bad, t.getEnd(), i - ot.getEvents().size() , fault, ot);
+                Set <List <Object>> tuples = find(bad, t.getEnd(), i - ot.getEvents().size() , fault, ot);
                 
                 // Foreach triple in the list
                 for(List <Object> tuple : tuples)
@@ -268,9 +270,9 @@ public class ControllerTwin
         State so1 = bad.getInitial();
         // The states of the bad twin except the unreacheable ones given only T\Tf transitions
         ControllerReachable controllerReachable = new ControllerReachable();
-        List <State> s1 = controllerReachable.getReachable(bad);
+        Set <State> s1 = controllerReachable.getReachable(bad);
         // The transitions of the bad twin except the fault ones
-        List <Transition> t1 = bad.getNotFaults();
+        Set <Transition> t1 = bad.getNotFaults();
         
         return new Automa(so1, s1, t1);
     }
@@ -282,16 +284,16 @@ public class ControllerTwin
      * @param good
      * @return 
      */
-    public SyncAutoma getSyncTwin2(SyncAutoma sa,List<Transition> ti){
+    public SyncAutoma getSyncTwin2(SyncAutoma sa,Set<Transition> ti){
         return sa;
     }
     
     
     public SyncAutoma getSyncTwin(Automa bad, Automa good)
     {
-        List <SyncTransition> ta = new ArrayList();
-        List <SyncTransition> tDue = new ArrayList();
-        List <SyncState> sDue = new ArrayList();
+        Set <SyncTransition> ta = new HashSet();
+        Set <SyncTransition> tDue = new HashSet();
+        Set <SyncState> sDue = new HashSet();
         SyncState so;
         
         for(State s: good.getStates())
@@ -336,15 +338,15 @@ public class ControllerTwin
         }
         else
         {
-           List <SyncState> sPrev = new ArrayList(sDue);
+           Set <SyncState> sPrev = new HashSet(sDue);
            for(State s: good.getStates())
            {
-              List <Transition> allT = bad.getTransitions(s);
-              List <Transition> notFaultT = bad
+              Set <Transition> allT = bad.getTransitions(s);
+              Set <Transition> notFaultT = bad
                       .getTransitions(s)
                       .stream()
                       .filter((a) -> (!a.isFault()))
-                      .collect(Collectors.toList());
+                      .collect(Collectors.toSet());
               
               
               for(Transition t1: allT)
@@ -375,17 +377,17 @@ public class ControllerTwin
            
            while(!sDue.equals(sPrev))
            {
-               List <SyncState> sDiff = new ArrayList(sDue);
+               Set <SyncState> sDiff = new HashSet(sDue);
                for(SyncState s: sPrev)
                {
                    sDiff.remove(s);
                }
-               sPrev = new ArrayList(sDue);
+               sPrev = new HashSet(sDue);
                
                for(SyncState s12: sDiff)
                {
-                   List <Transition> allT = bad.getTransitions();
-                   List <Transition> notFaultT=bad.getNotFaults();
+                   Set <Transition> allT = bad.getTransitions();
+                   Set <Transition> notFaultT=bad.getNotFaults();
                    for(Transition t1: allT)
                    {
                        for(Transition t2: notFaultT)

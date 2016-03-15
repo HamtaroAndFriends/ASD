@@ -7,8 +7,8 @@ package model;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -38,32 +38,32 @@ public class Automa
      */
     @XmlElementWrapper
     @XmlElement
-    private List <State> states; 
+    private Set <State> states; 
     
     /**
      * 
      */
     @XmlElementWrapper
     @XmlElement
-    private List <Transition> transitions;
+    private Set <Transition> transitions;
     
     /**
      * 
      */
     @XmlTransient
-    private ConcurrentHashMap <State, List <Transition>> stateTransitions;
+    private ConcurrentHashMap <State, Set <Transition>> stateTransitions;
     
     /**
      * 
      */
     @XmlTransient
-    private Supplier <List <Transition>> observables;
+    private Supplier <Set <Transition>> observables;
     
     /**
      * 
      */
     @XmlTransient
-    private Supplier <List <Transition>> faults;
+    private Supplier <Set <Transition>> faults;
    
     
     /**
@@ -72,11 +72,11 @@ public class Automa
     public Automa()
     {
         this.initial = new State();
-        this.states = new ArrayList <> ();
-        this.transitions = new ArrayList <> ();
+        this.states = new HashSet <> ();
+        this.transitions = new HashSet <> ();
         
-        this.observables = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isObservable() == true)).collect(Collectors.toList()));
-        this.faults = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isFault() == true)).collect(Collectors.toList()));
+        this.observables = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isObservable() == true)).collect(Collectors.toSet()));
+        this.faults = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isFault() == true)).collect(Collectors.toSet()));
         this.stateTransitions = new ConcurrentHashMap <> ();
     }
 
@@ -86,7 +86,7 @@ public class Automa
      * @param states
      * @param transitions 
      */
-    public Automa(State initial, List<State> states, List<Transition> transitions)
+    public Automa(State initial, Set<State> states, Set<Transition> transitions)
     {
         this();
         this.initial = initial;
@@ -118,7 +118,7 @@ public class Automa
      * This method gets all the states of the automa.
      * @return 
      */
-    public List<State> getStates() 
+    public Set<State> getStates() 
     {
         return states;
     }
@@ -127,7 +127,7 @@ public class Automa
      * This method sets all the states of the automa.
      * @param states 
      */
-    public void setStates(List<State> states) 
+    public void setStates(Set<State> states) 
     {
         this.states = states;
     }
@@ -136,7 +136,7 @@ public class Automa
      * This method gets all the transitions of the automa.
      * @return 
      */
-    public List<Transition> getTransitions() 
+    public Set<Transition> getTransitions() 
     {
         return transitions;
     }
@@ -146,16 +146,16 @@ public class Automa
      * @param start
      * @return 
      */
-    public List<Transition> getTransitions(State start)
+    public Set<Transition> getTransitions(State start)
     {
-        return stateTransitions.computeIfAbsent(start, (s) -> (transitions.stream().filter((t) -> (t.getStart().equals(start))).collect(Collectors.toList())));
+        return stateTransitions.computeIfAbsent(start, (s) -> (transitions.stream().filter((t) -> (t.getStart().equals(start))).collect(Collectors.toSet())));
     }
 
     /**
      * This method sets all the transitions of the automa.
      * @param transitions 
      */
-    public void setTransitions(List<Transition> transitions) 
+    public void setTransitions(Set<Transition> transitions) 
     {
         this.transitions = transitions;
     }
@@ -166,7 +166,7 @@ public class Automa
      * 
      * @return 
      */
-    public List<Transition> getObservables()
+    public Set<Transition> getObservables()
     {
         return observables.get();
     }
@@ -176,9 +176,9 @@ public class Automa
      * 
      * @return 
      */
-    public List<Transition> getNotObservables()
+    public Set<Transition> getNotObservables()
     {
-        return transitions.stream().filter((t) -> (t.isObservable() == false)).collect(Collectors.toList());
+        return transitions.stream().filter((t) -> (t.isObservable() == false)).collect(Collectors.toSet());
     }
     
     /**
@@ -186,7 +186,7 @@ public class Automa
      * This method uses a caching system provided by {@link Supplier} class. 
      * @return 
      */
-    public List<Transition> getFaults()
+    public Set<Transition> getFaults()
     {
         return faults.get();
     }
@@ -195,9 +195,9 @@ public class Automa
      * This method gets all the not fault transitions of the automa.
      * @return 
      */
-    public List<Transition> getNotFaults()
+    public Set<Transition> getNotFaults()
     {
-        return transitions.stream().filter((t) -> (t.isFault() == false)).collect(Collectors.toList());
+        return transitions.stream().filter((t) -> (t.isFault() == false)).collect(Collectors.toSet());
     }
    
 }

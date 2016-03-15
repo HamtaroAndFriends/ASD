@@ -7,10 +7,10 @@ package controller.method;
 
 import controller.ControllerDiagnosability;
 import controller.ControllerTwin;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -30,7 +30,7 @@ import model.sync.SyncTransition;
 public class ControllerThird {
 
     private ControllerTwin controllerTwin;
-    private Map<Integer, List<Transition>> transizioniAggiunte = new HashMap<>();
+    private Map<Integer, Set<Transition>> transizioniAggiunte = new HashMap<>();
     private Map<Integer, SyncAutoma> automiSincronizzati = new HashMap<>();
 
     /**
@@ -56,8 +56,8 @@ public class ControllerThird {
             Automa nextBad = container.getBads().computeIfAbsent(level, (a) -> (controllerTwin.getBadTwin(prevBad, level)));
 
             if (i > 1) {
-                List<Transition> tPrev = prevBad.getTransitions();
-                List<Transition> tNext = nextBad.getTransitions();
+                Set<Transition> tPrev = prevBad.getTransitions();
+                Set<Transition> tNext = nextBad.getTransitions();
                 tNext.retainAll(tPrev);//retainAll leva da tNext le transizioni che erano presenti anche in tPrev
                 transizioniAggiunte.put(i, tNext);
             }
@@ -74,7 +74,7 @@ public class ControllerThird {
 
                 }
                 automiSincronizzati.put(i, syncAutoma);
-                List <SyncTransition> lst=syncAutoma.getTransitions();
+                Set <SyncTransition> lst=syncAutoma.getTransitions();
                 if(cd.isDiagnosabilityC1(lst)){
                     i++;
                 }else{
@@ -105,7 +105,7 @@ public class ControllerThird {
     {
         Set <SyncTransition> ambiguous = new HashSet <> ();
         
-        for(SyncTransition t : automa.getTransitions().stream().filter((s) -> (s.getStart().equals(state))).collect(Collectors.toList()))
+        for(SyncTransition t : automa.getTransitions().stream().filter((s) -> (s.getStart().equals(state))).collect(Collectors.toSet()))
         {
             if(!t.isAmbiguous())
             {
@@ -138,11 +138,11 @@ public class ControllerThird {
             SyncState state = queue.poll();
             
             // Get all transitions that start with {@link SyncState} state.
-            List <SyncTransition> syncTransition = automa
+            Set <SyncTransition> syncTransition = automa
                     .getTransitions()
                     .stream()
                     .filter((t) -> (t.getStart().equals(state)))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
             
             // Loop on all transition from the current state
             for(SyncTransition t : syncTransition)

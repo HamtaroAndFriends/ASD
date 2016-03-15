@@ -5,8 +5,8 @@
  */
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Map;
 import model.Automa;
 import model.Event;
@@ -35,7 +35,7 @@ public class ControllerDiagnosability
      * @param syncTransitions
      * @return 
      */
-    public boolean isDiagnosabilityC1(List <SyncTransition> syncTransitions)
+    public boolean isDiagnosabilityC1(Set <SyncTransition> syncTransitions)
     {
         // Return true if there isn't ambiguous transitions
         return syncTransitions.stream().noneMatch((st) -> (st.isAmbiguous()));
@@ -83,20 +83,22 @@ public class ControllerDiagnosability
         // Loop over the computed bad twins
         while(bads.containsKey(level) && isC3){
             Automa twin=bads.get(level);
-            List<Transition> t=new ArrayList<>();//tutte le transizioni
-            List<Transition> tGuasto=twin.getFaults();
-            List<Transition> tOsservabili=twin.getObservables();
-            List<Transition> tNonOsservabili=twin.getNotObservables();
+            Set<Transition> t=new HashSet<>();//tutte le transizioni
+            Set<Transition> tGuasto=twin.getFaults();
+            Set<Transition> tOsservabili=twin.getObservables();
+            Set<Transition> tNonOsservabili=twin.getNotObservables();
             t.addAll(tOsservabili);
             t.addAll(tNonOsservabili);
-            List<Event> eGuasti= new ArrayList<>(); //eventi associati a transizioni di guasto
-            for(int i=0;i<tGuasto.size();i++){
-                if(!eGuasti.contains(tGuasto.get(i).getEvent())){
-                    eGuasti.add(tGuasto.get(i).getEvent());
+            Set<Event> eGuasti= new HashSet<>(); //eventi associati a transizioni di guasto
+            
+            for(Transition i : tGuasto){
+                if(!eGuasti.contains(i.getEvent())){
+                    eGuasti.add(i.getEvent());
                 }
             }
-            for(int i=0;i<t.size();i++){
-                Transition transizione=t.get(i);
+            
+            for(Transition i : t){
+                Transition transizione= i;
                 if(!transizione.isFault()){ // prendo solo le transizioni non di guasto
                    Event e=transizione.getEvent();
                    if(eGuasti.contains(e)){

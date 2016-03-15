@@ -8,8 +8,11 @@ package model;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlValue;
 
 /**
  * The definition of the {@link State} class.
@@ -23,19 +26,19 @@ public class State
     /**
      * 
      */
-    @XmlElement
+    @XmlAttribute
     private String name;
     
     /**
-     * 
+     * @deprecated
      */
-    @XmlElement
+    @XmlTransient
     private boolean isFinal;
     
     /**
-     * 
+     *  
      */
-    @XmlElement
+    @XmlAttribute(required = false)
     private boolean isInitial;
 
     /**
@@ -45,12 +48,19 @@ public class State
     {
         
     }
-
+    
+    public State(String name, boolean isInitial)
+    {
+        this.name = name;
+        this.isInitial = isInitial;
+    }
+    
     /**
      * 
      * @param name 
      * @param isFinal 
      * @param isInitial 
+     * @deprecated 
      */
     public State(String name, boolean isFinal, boolean isInitial)    
     {
@@ -65,7 +75,7 @@ public class State
      */
     public State(String name)
     {
-        this(name, true, false);
+        this(name, false);
     }
 
     /**
@@ -85,7 +95,7 @@ public class State
     }
 
     /**
-     * 
+     * @deprecated 
      * @return 
      */
     public boolean isFinal()
@@ -103,7 +113,7 @@ public class State
     }
 
     /**
-     * 
+     * @deprecated 
      * @param isFinal 
      */
     public void setFinal(boolean isFinal) 

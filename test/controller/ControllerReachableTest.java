@@ -6,7 +6,7 @@
 package controller;
 
 import java.io.File;
-import java.util.List;
+import java.util.Set;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -59,7 +59,7 @@ public class ControllerReachableTest {
         System.out.println("getReachable");
         Automa evil = result;
         ControllerReachable instance = new ControllerReachable();
-        List<State> stateResult = instance.getReachable(evil);
+        Set<State> stateResult = instance.getReachable(evil);
         // TODO review the generated test code and remove the default call to fail.
         
         JAXBContext context2 = JAXBContext.newInstance(State.class);

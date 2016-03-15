@@ -8,7 +8,7 @@ package controller.method;
 import controller.ControllerDiagnosability;
 import controller.ControllerTwin;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -56,7 +56,7 @@ public class ControllerSecond {
                 Automa nextGood = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(nextBad)));
                 // Syncrhonized the twins
                 SyncAutoma syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood); // metodo1 di sincronizzazione
-                List <SyncTransition> lst=syncAutoma.getTransitions();
+                Set <SyncTransition> lst=syncAutoma.getTransitions();
                 if(cd.isDiagnosabilityC1(lst)){
                     i++;
                 }else{
@@ -89,7 +89,7 @@ public class ControllerSecond {
     {
         Set <SyncTransition> ambiguous = new HashSet <> ();
         
-        for(SyncTransition t : automa.getTransitions().stream().filter((s) -> (s.getStart().equals(state))).collect(Collectors.toList()))
+        for(SyncTransition t : automa.getTransitions().stream().filter((s) -> (s.getStart().equals(state))).collect(Collectors.toSet()))
         {
             if(!t.isAmbiguous())
             {
@@ -122,11 +122,11 @@ public class ControllerSecond {
             SyncState state = queue.poll();
             
             // Get all transitions that start with {@link SyncState} state.
-            List <SyncTransition> syncTransition = automa
+            Set <SyncTransition> syncTransition = automa
                     .getTransitions()
                     .stream()
                     .filter((t) -> (t.getStart().equals(state)))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
             
             // Loop on all transition from the current state
             for(SyncTransition t : syncTransition)

@@ -5,6 +5,7 @@
  */
 package controller.generator;
 
+import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class ControllerGenerator
         State s0 = states.get(rand.nextInt(states.size()));
         s0.setInitial(true);
         
-        return new Automa(s0, states, transitions);
+        return new Automa(s0, Sets.newHashSet(states), Sets.newHashSet(transitions));
     }
     
     /**

@@ -246,7 +246,7 @@ public class ControllerTwin
      */
     public Automa getBadTwin(Automa automa, int level)
     {
-        if(level == 0) 
+        if(level == 1) 
         {
             return getBadTwinOne(automa);
         }

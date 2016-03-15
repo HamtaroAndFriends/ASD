@@ -46,7 +46,7 @@ public class SyncTransition
         this.t1 = t1;
         this.t2 = t2;
     }
-
+    
     /**
      * 
      * @return 

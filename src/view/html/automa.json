@@ -1,0 +1,44 @@
+[{
+        "nodes": ["A", "B", "C", "D", "E", "F"],
+        "edges": [["A", "B", {
+                    "label": "[b]",
+                    "color": "blue"
+                }]
+                    , ["A", "C", {
+                            "label": "[a]",
+                            "color": "blue"
+                        }]
+                    , ["B", "A", {
+                            "label": "[]",
+                            "color": "blue"
+                        }]
+                    , ["B", "D", {
+                            "label": "[]",
+                            "color": "blue"
+                        }]
+                    , ["C", "F", {
+                            "label": "[]",
+                            "color": "blue"
+                        }]
+                    , ["C", "E", {
+                            "label": "[d]",
+                            "color": "blue"
+                        }]
+                    , ["D", "D", {
+                            "label": "[c]",
+                            "color": "blue"
+                        }]
+                    , ["E", "F", {
+                            "label": "[]",
+                            "color": "red"
+                        }]
+                    , ["E", "A", {
+                            "label": "[]",
+                            "color": "blue"
+                        }]
+                    , ["F", "F", {
+                            "label": "[c]",
+                            "color": "blue"
+                        }]
+        ]
+    }]

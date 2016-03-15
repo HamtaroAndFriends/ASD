@@ -54,7 +54,7 @@ public class SyncAutoma
     {
         this.states = new ArrayList <> ();
         this.transitions = new ArrayList <> ();
-        this.ambiguous = new ArrayList <> ();
+        this.ambiguous =  Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toList()));
     }
     
     /**
@@ -159,8 +159,5 @@ public class SyncAutoma
     {
         this.ambiguous = ambiguous;
     }
-    
-    
-    
-    
+  
 }

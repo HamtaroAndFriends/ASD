@@ -103,7 +103,13 @@ public class Event
         
         final Event other = (Event) obj;
         
-        if (!Objects.equals(this.events, other.events))
+        /*if (!Objects.equals(this.events, other.events))
+        {
+            return false;
+        }*/
+        
+        // The simplest way
+        if(!this.events.containsAll(other.events) || !other.events.containsAll(this.events))
         {
             return false;
         }

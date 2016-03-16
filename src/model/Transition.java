@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.Collections;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -166,19 +167,17 @@ public class Transition
         this.isObservable = isObservable;
     }
 
-    /**
-     * 
-     * @return 
-     */
     @Override
-    public int hashCode() 
-    {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.start);
-        hash = 89 * hash + Objects.hashCode(this.end);
-        hash = 89 * hash + Objects.hashCode(this.event);
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.start);
+        hash = 47 * hash + Objects.hashCode(this.end);
+        Collections.sort(this.event.getEvents());
+        hash = 47 * hash + Objects.hashCode(this.event);
         return hash;
     }
+
+    
 
     /**
      * 

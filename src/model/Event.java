@@ -111,12 +111,12 @@ public class Event
         }*/
         
         // The simplest way
-        if(!this.events.containsAll(other.events) || !other.events.containsAll(this.events))
+        if(this.events.size() == other.events.size() && this.events.containsAll(other.events) && other.events.containsAll(this.events))
         {
-            return false;
+            return true;
         }
         
-        return true;
+        return false;
     }
     
     

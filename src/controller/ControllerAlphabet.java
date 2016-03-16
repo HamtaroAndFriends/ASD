@@ -36,12 +36,7 @@ public class ControllerAlphabet
                     .collect(Collectors.toList());
             
             Set <Event> eventsWithoutDuplicates = new HashSet<>(eventsWithDuplicate);
-            
-            for(Event e : eventsWithDuplicate)
-            {
-                System.out.println(e.getEvents());
-            }
-                        
+                                    
             if(eventsWithoutDuplicates.size() != eventsWithDuplicate.size()) return false;
         }
         

@@ -144,7 +144,8 @@ public class Transition
      */
     public boolean isObservable() 
     {
-        return isObservable;
+        //return isObservable;  
+        return !event.getEvents().isEmpty();
     }
 
     /**

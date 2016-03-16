@@ -65,7 +65,7 @@ public class Event
     {
         this.events = events;
     }
-
+    
     /**
      * 
      * @return 

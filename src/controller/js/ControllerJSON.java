@@ -132,8 +132,8 @@ public class ControllerJSON
         for(SyncTransition t : automa.getTransitions())
         {
             json.append(String.format(JSON_TRANSITION, 
-                    t.getStart().getState1().getName() + t.getStart().getState2().getName(), 
-                    t.getEnd().getState1().getName() + t.getEnd().getState2().getName(),
+                    t.getStart().getName(), 
+                    t.getEnd().getName(),
                     Arrays.toString(t.getT1().getEvent().getEvents().toArray()), (t.isAmbiguous() ? "red" : "blue"))).append(COMMA);
         }
         
@@ -155,8 +155,8 @@ public class ControllerJSON
         for(Transition t : automa.getTransitions().stream().filter((t) -> (t.getStart().equals(t.getEnd()))).collect(Collectors.toList()))
         {
             states.append(String.format(JSON_STATE, String.format(JSON_LOOP, t.getStart().getName()))).append(COMMA);
-            transitions.append(String.format(JSON_TRANSITION, t.getStart().getName(), String.format(JSON_LOOP, t.getEnd().getName()), Arrays.toString(t.getEvent().getEvents().toArray()), (t.isFault() ? "red" : "blue"))).append(COMMA);
-            transitions.append(String.format(JSON_TRANSITION, String.format(JSON_LOOP, t.getStart().getName()), t.getEnd().getName(), Arrays.toString(t.getEvent().getEvents().toArray()), (t.isFault() ? "red" : "blue"))).append(COMMA);
+            transitions.append(String.format(JSON_TRANSITION, t.getStart().getName(), String.format(JSON_LOOP, t.getEnd().getName()), Arrays.toString(t.getEvent().getEvents().toArray()), (t.isFault() ? "orange" : "lightBlue"))).append(COMMA);
+            transitions.append(String.format(JSON_TRANSITION, String.format(JSON_LOOP, t.getStart().getName()), t.getEnd().getName(), Arrays.toString(t.getEvent().getEvents().toArray()), (t.isFault() ? "orange" : "lightBlue"))).append(COMMA);
         }
         states.deleteCharAt(states.length() - 1);
         states.append(CLOSE_SQUARE);
@@ -185,11 +185,11 @@ public class ControllerJSON
         StringBuilder states = new StringBuilder(getStateJSON(automa));
         StringBuilder transitions = new StringBuilder(getTransitionJSON(automa));
         
-        for(SyncTransition t : automa.getTransitions().stream().filter((t) -> (t.getStart().equals(t.getEnd()))).collect(Collectors.toList()))
+        for(SyncTransition t : automa.getTransitions().stream().filter((t) -> (t.getStart().getName().equals(t.getEnd().getName()))).collect(Collectors.toList()))
         {
-            states.append(String.format(JSON_STATE, String.format(JSON_LOOP, t.getStart().getState1().getName() + t.getStart().getState2().getName()))).append(COMMA);
-            transitions.append(String.format(JSON_TRANSITION, t.getStart().getState1().getName() + t.getStart().getState2().getName(), String.format(JSON_LOOP, t.getEnd().getState1().getName() + t.getEnd().getState2().getName()), Arrays.toString(t.getT1().getEvent().getEvents().toArray()), (t.isAmbiguous()? "red" : "blue"))).append(COMMA);
-            transitions.append(String.format(JSON_TRANSITION, String.format(JSON_LOOP, t.getEnd().getState1().getName() + t.getEnd().getState2().getName()), t.getStart().getState1().getName() + t.getStart().getState2().getName(), Arrays.toString(t.getT1().getEvent().getEvents().toArray()), (t.isAmbiguous()? "red" : "blue"))).append(COMMA);
+            states.append(String.format(JSON_STATE, String.format(JSON_LOOP, t.getStart().getName()))).append(COMMA);
+            transitions.append(String.format(JSON_TRANSITION, t.getStart().getName(), String.format(JSON_LOOP, t.getEnd().getName()), Arrays.toString(t.getT1().getEvent().getEvents().toArray()), (t.isAmbiguous()? "orange" : "lightblue"))).append(COMMA);
+            transitions.append(String.format(JSON_TRANSITION, String.format(JSON_LOOP, t.getEnd().getName()), t.getStart().getName(), Arrays.toString(t.getT1().getEvent().getEvents().toArray()), (t.isAmbiguous()? "orange" : "lightblue"))).append(COMMA);
             
         }
         states.deleteCharAt(states.length() - 1);

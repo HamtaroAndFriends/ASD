@@ -70,11 +70,12 @@ public class ControllerSyncTest {
     public void testGetSyncTwin() throws JAXBException, FileNotFoundException
     {
         Automa bad1 = controller.getBadTwin(automa, 1);
-        //Automa bad2 = controller.getBadTwin(bad1, 2);
-        //Automa bad3 = controller.getBadTwin(bad2, 3);
-        //Automa good3 = controller.getGoodTwin(bad3);
-        Automa good1 = controller.getGoodTwin(bad1);
-        SyncAutoma sync = controller.getSyncTwin(bad1, good1);
+        Automa bad2 = controller.getBadTwin(bad1, 2);
+        Automa bad3 = controller.getBadTwin(bad2, 3);
+        Automa good3 = controller.getGoodTwin(bad3);
+        //Automa good2 = controller.getGoodTwin(bad2);
+        //Automa good1 = controller.getGoodTwin(bad1);
+        SyncAutoma sync = controller.getSyncTwin(bad3, good3);
         
         ControllerJSON cj = new ControllerJSON();
         cj.createAutomaView(sync, "test/controller/json");
@@ -82,7 +83,7 @@ public class ControllerSyncTest {
         JAXBContext context = JAXBContext.newInstance(SyncAutoma.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,  true);
-        marshaller.marshal(sync, System.out);
+        //marshaller.marshal(sync, System.out);
     }
     
 }

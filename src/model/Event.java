@@ -6,6 +6,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -74,6 +75,7 @@ public class Event
     public int hashCode() 
     {
         int hash = 5;
+        Collections.sort(this.events);
         hash = 31 * hash + Objects.hashCode(this.events);
         return hash;
     }

@@ -5,7 +5,7 @@
  */
 package controller;
 
-import com.google.common.collect.Sets;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,13 +29,20 @@ public class ControllerAlphabet
     {
         for(State s : automa.getStates())
         {
-            List <Event> events = automa
+            List <Event> eventsWithDuplicate = automa
                     .getTransitions(s)
                     .stream()
                     .map((t) -> (t.getEvent()))
                     .collect(Collectors.toList());
             
-            if(Sets.newHashSet(events).size() != events.size()) return false;
+            Set <Event> eventsWithoutDuplicates = new HashSet<>(eventsWithDuplicate);
+            
+            for(Event e : eventsWithDuplicate)
+            {
+                System.out.println(e.getEvents());
+            }
+                        
+            if(eventsWithoutDuplicates.size() != eventsWithDuplicate.size()) return false;
         }
         
         return true;

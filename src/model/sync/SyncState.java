@@ -5,6 +5,7 @@
  */
 package model.sync;
 
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -91,4 +92,36 @@ public class SyncState
     {
         return this.state1.getName() + this.state2.getName();
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.state1);
+        hash = 79 * hash + Objects.hashCode(this.state2);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SyncState other = (SyncState) obj;
+        
+        if (Objects.equals(this.state1, other.state1) && Objects.equals(this.state2, other.state2)) {
+            return true;
+        }
+        if (Objects.equals(this.state2, other.state1) && Objects.equals(this.state1, other.state2)) {
+            return true;
+        }
+        return false;
+    }
+    
+    
 }

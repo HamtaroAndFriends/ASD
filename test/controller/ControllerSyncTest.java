@@ -83,7 +83,7 @@ public class ControllerSyncTest {
         JAXBContext context = JAXBContext.newInstance(SyncAutoma.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,  true);
-        //marshaller.marshal(sync, System.out);
+        marshaller.marshal(sync, System.out);
     }
     
 }

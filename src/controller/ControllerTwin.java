@@ -312,7 +312,9 @@ public class ControllerTwin
         Set <SyncTransition> tDueset = new HashSet();
         Set <SyncState> sDueset = new HashSet(); 
         
-        taset.addAll(ta);
+        // To do: sarà da togliere ora che usiamo i Set!
+        
+        taset.addAll(ta); // AddAll?? Ma se è vuoto!
         tDueset.addAll(tDue);
         sDueset.addAll(sDue);
         ta.clear();

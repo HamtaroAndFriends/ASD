@@ -67,7 +67,7 @@ public class ControllerFirstTest {
         Container container = new Container();
         container.setAutoma(automa);
         
-        int result = controllerFirst.performFirstMethod(container, 2);
+        int result = controllerFirst.performFirstMethod(container, 4);
         
         System.out.println(result);
     }
@@ -90,7 +90,7 @@ public class ControllerFirstTest {
     }
 
     /**
-     * Test of getFirstAmiguousTransitions method, of class ControllerFirst.
+     * Test of getFirstAmbiguousTransitions method, of class ControllerFirst.
      */
     @Test
     public void testGetFirstAmiguousTransitions()
@@ -100,7 +100,7 @@ public class ControllerFirstTest {
         Automa good = controllerTwin.getGoodTwin(bad);
         SyncAutoma sync = controllerTwin.getSyncTwin(bad, good);
         
-        Set <SyncTransition> amgiguous = controllerFirst.getFirstAmiguousTransitions(sync, sync.getInitial());
+        Set <SyncTransition> amgiguous = controllerFirst.getFirstAmbiguousTransitions(sync, sync.getInitial());
         
         if(!amgiguous.isEmpty())
         {

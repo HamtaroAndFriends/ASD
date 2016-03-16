@@ -56,7 +56,7 @@ public class ControllerJSON
         "                });\n" +
         "            });\n" +
         "        </script>\n" +
-        "        <canvas id=\"springydemo\" width=\"1366px\" height=\"600px\"></canvas>\n" +
+        "        <canvas id=\"springydemo\" width=\"1366\" height=\"600\"></canvas>\n" +
         "    </body>\n" +
         "</html>\n";
     

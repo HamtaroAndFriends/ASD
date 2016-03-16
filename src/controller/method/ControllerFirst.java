@@ -75,7 +75,8 @@ public class ControllerFirst
      */
     public boolean isFollowedByAnEndlessLoop(SyncAutoma automa)
     {
-        Set <SyncTransition> ambiguous = getFirstAmiguousTransitions(automa, automa.getInitial());
+        //Set <SyncTransition> ambiguous = getFirstAmbiguousTransitions(automa, automa.getInitial());
+        Set <SyncTransition> ambiguous = getFirstAmbiguousTransitions(automa);
         
         for(SyncTransition t : ambiguous)
         {
@@ -90,16 +91,17 @@ public class ControllerFirst
      * @param automa
      * @param state
      * @return 
+     * @deprecated 
      */
-    public Set <SyncTransition> getFirstAmiguousTransitions(SyncAutoma automa, SyncState state)
+    public Set <SyncTransition> getFirstAmbiguousTransitions(SyncAutoma automa, SyncState state)
     {
         Set <SyncTransition> ambiguous = new HashSet <> ();
         
-        for(SyncTransition t : automa.getTransitions().stream().filter((s) -> (s.getStart().equals(state))).collect(Collectors.toList()))
+        for(SyncTransition t : automa.getTransitions().stream().filter((s) -> (s.getStart().equals(state))).collect(Collectors.toSet()))
         {
             if(!t.isAmbiguous())
             {
-                ambiguous.addAll(getFirstAmiguousTransitions(automa, t.getEnd()));
+                ambiguous.addAll(ControllerFirst.this.getFirstAmbiguousTransitions(automa, t.getEnd()));
             }
             else
             {
@@ -110,6 +112,35 @@ public class ControllerFirst
         return ambiguous;
     }
     
+    public Set <SyncTransition> getFirstAmbiguousTransitions(SyncAutoma automa)
+    {
+        Queue <SyncState> queue = new ConcurrentLinkedQueue<>() ;
+        Set <SyncState> visited = new HashSet <> ();
+        Set <SyncTransition> ambiguous = new HashSet <> ();
+        
+        queue.add(automa.getInitial());
+        
+        while(!queue.isEmpty())
+        {
+            // Pop the element on head
+            SyncState current = queue.poll();
+            
+            // If the element was already visited skip to the next loop
+            if(visited.contains(current)) continue;
+            
+            // Save the set of all ambiguos transition from the current state
+            ambiguous.addAll(automa.getAmbiguous().stream().filter((t) -> (t.getStart().equals(current))).collect(Collectors.toSet()));
+            
+            // Add to the queue the end state of each transition the stars from the current state (and is not ambiguous)
+            queue.addAll(automa.getTransitions().stream().filter((t) -> (t.getStart().equals(current) && !t.isAmbiguous() && !visited.contains(t.getEnd()))).map((t) -> (t.getEnd())).collect(Collectors.toSet()));
+            
+            // Mark the current state as visited
+            visited.add(current);  
+        }
+        
+        
+        return ambiguous;
+    }
     
     /**
      * This method checks if the {@link SyncTransition} is follwed by an endless 

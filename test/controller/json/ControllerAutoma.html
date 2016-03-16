@@ -10,20 +10,21 @@
     <body>
         <script>
             
-            var graphJSON = {"nodes" : [ "A" , "B" , "C" , "D" , "E" , "F" , "D." , "F." ],"edges" : [["A" , "B", { "label": "[b]" , "color": "blue"}]
-,["A" , "C", { "label": "[a]" , "color": "blue"}]
-,["B" , "A", { "label": "[]" , "color": "blue"}]
-,["B" , "D", { "label": "[]" , "color": "blue"}]
-,["C" , "F", { "label": "[]" , "color": "blue"}]
-,["C" , "E", { "label": "[d]" , "color": "blue"}]
-,["D" , "D", { "label": "[c]" , "color": "blue"}]
-,["E" , "F", { "label": "[]" , "color": "red"}]
-,["E" , "A", { "label": "[]" , "color": "blue"}]
-,["F" , "F", { "label": "[c]" , "color": "blue"}]
-,["D" , "D.", { "label": "[c]" , "color": "blue"}]
-,["D." , "D", { "label": "[c]" , "color": "blue"}]
-,["F" , "F.", { "label": "[c]" , "color": "blue"}]
-,["F." , "F", { "label": "[c]" , "color": "blue"}]
+            var graphJSON = {"nodes" : [ "CC" , "EE" , "AA" , "BB" , "DD" , "FF" ],"edges" : [["CC" , "FF", { "label": "[c]" , "color": "blue"}]
+,["DD" , "DD", { "label": "[c]" , "color": "blue"}]
+,["BB" , "DD", { "label": "[]" , "color": "blue"}]
+,["BB" , "CC", { "label": "[a]" , "color": "blue"}]
+,["FF" , "FF", { "label": "[c]" , "color": "blue"}]
+,["EE" , "AA", { "label": "[]" , "color": "blue"}]
+,["EE" , "CC", { "label": "[a]" , "color": "blue"}]
+,["BB" , "DD", { "label": "[c]" , "color": "blue"}]
+,["CC" , "EE", { "label": "[d]" , "color": "blue"}]
+,["AA" , "CC", { "label": "[a]" , "color": "blue"}]
+,["EE" , "BB", { "label": "[b]" , "color": "blue"}]
+,["BB" , "AA", { "label": "[]" , "color": "blue"}]
+,["AA" , "BB", { "label": "[b]" , "color": "blue"}]
+,["CC" , "FF", { "label": "[]" , "color": "blue"}]
+,["BB" , "BB", { "label": "[b]" , "color": "blue"}]
 ]};
             jQuery(function () {
                 var graph = new Springy.Graph();
@@ -33,6 +34,6 @@
                 });
             });
         </script>
-        <canvas id="springydemo" width="640" height="480"></canvas>
+        <canvas id="springydemo" width="1366px" height="600px"></canvas>
     </body>
 </html>

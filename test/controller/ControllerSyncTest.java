@@ -5,7 +5,9 @@
  */
 package controller;
 
+import controller.js.ControllerJSON;
 import java.io.File;
+import java.io.FileNotFoundException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -65,13 +67,17 @@ public class ControllerSyncTest {
      * Test of getSyncTwin method, of class ControllerTwin.
      */
     @Test
-    public void testGetSyncTwin() throws JAXBException
+    public void testGetSyncTwin() throws JAXBException, FileNotFoundException
     {
         Automa bad1 = controller.getBadTwin(automa, 1);
-        Automa bad2 = controller.getBadTwin(bad1, 2);
-        Automa bad3 = controller.getBadTwin(bad2, 3);
-        Automa good3 = controller.getGoodTwin(bad3);
-        SyncAutoma sync = controller.getSyncTwin(bad3, good3);
+        //Automa bad2 = controller.getBadTwin(bad1, 2);
+        //Automa bad3 = controller.getBadTwin(bad2, 3);
+        //Automa good3 = controller.getGoodTwin(bad3);
+        Automa good1 = controller.getGoodTwin(bad1);
+        SyncAutoma sync = controller.getSyncTwin(bad1, good1);
+        
+        ControllerJSON cj = new ControllerJSON();
+        cj.createAutomaView(sync, "test/controller/json");
         
         JAXBContext context = JAXBContext.newInstance(SyncAutoma.class);
         Marshaller marshaller = context.createMarshaller();

@@ -82,4 +82,13 @@ public class SyncState
     {
         this.state2 = state2;
     }
+    
+    /**
+     * 
+     * @return 
+     */
+    public String getName()
+    {
+        return this.state1.getName() + this.state2.getName();
+    }
 }

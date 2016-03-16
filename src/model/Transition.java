@@ -167,17 +167,20 @@ public class Transition
         this.isObservable = isObservable;
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 47 * hash + Objects.hashCode(this.start);
-        hash = 47 * hash + Objects.hashCode(this.end);
+    public int hashCode() 
+    {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.start);
+        hash = 89 * hash + Objects.hashCode(this.end);
         Collections.sort(this.event.getEvents());
-        hash = 47 * hash + Objects.hashCode(this.event);
+        hash = 89 * hash + Objects.hashCode(this.event);
         return hash;
     }
-
-    
 
     /**
      * 

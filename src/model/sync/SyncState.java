@@ -5,11 +5,16 @@
  */
 package model.sync;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import model.State;
 
 /**
@@ -21,21 +26,30 @@ import model.State;
 public class SyncState
 {
     /**
-     * 
+     * @deprecated
      */
-    @XmlElement
+    @XmlTransient
     private State state1;
+    
+    /**
+     * @deprecated
+     */
+    @XmlTransient
+    private State state2;
     
     /**
      * 
      */
     @XmlElement
-    private State state2;
+    private State [] state;
     
     /**
      * This costructor is used from JAXB.
      */
-    public SyncState() {}
+    public SyncState() 
+    {
+        state = new State[2];
+    }
     
     /**
      * 
@@ -44,8 +58,9 @@ public class SyncState
      */
     public SyncState(State state1, State state2)
     {
-        this.state1 = state1;
-        this.state2 = state2;
+        this();
+        this.state[0] = state1;
+        this.state[1] = state2;
     }
 
     /**
@@ -54,7 +69,7 @@ public class SyncState
      */
     public State getState1() 
     {
-        return state1;
+        return state[0];
     }
 
     /**
@@ -63,7 +78,7 @@ public class SyncState
      */
     public void setState1(State state1)
     {
-        this.state1 = state1;
+        this.state[0] = state1;
     }
 
     /**
@@ -72,7 +87,7 @@ public class SyncState
      */
     public State getState2()
     {
-        return state2;
+        return state[1];
     }
 
     /**
@@ -81,7 +96,7 @@ public class SyncState
      */
     public void setState2(State state2) 
     {
-        this.state2 = state2;
+        this.state[1] = state2;
     }
     
     /**
@@ -90,17 +105,27 @@ public class SyncState
      */
     public String getName()
     {
-        return this.state1.getName() + this.state2.getName();
+        return this.state[0].getName() + this.state[1].getName();
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.state1);
-        hash = 79 * hash + Objects.hashCode(this.state2);
+    public int hashCode() 
+    {
+        int hash = 7;
+        Arrays.sort(this.state, (State s1, State s2) -> s1.getName().compareTo(s2.getName()));
+        hash = 19 * hash + Arrays.deepHashCode(this.state);
         return hash;
     }
 
+    /**
+     * 
+     * @param obj
+     * @return 
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -113,15 +138,13 @@ public class SyncState
             return false;
         }
         final SyncState other = (SyncState) obj;
-        
-        if (Objects.equals(this.state1, other.state1) && Objects.equals(this.state2, other.state2)) {
-            return true;
+        if (!Arrays.deepEquals(this.state, other.state)) {
+            return false;
         }
-        if (Objects.equals(this.state2, other.state1) && Objects.equals(this.state1, other.state2)) {
-            return true;
-        }
-        return false;
+        return true;
     }
+
+    
     
     
 }

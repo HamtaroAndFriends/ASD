@@ -111,9 +111,12 @@ public class Event
         }*/
         
         // The simplest way
-        if(this.events.size() == other.events.size() && this.events.containsAll(other.events) && other.events.containsAll(this.events))
+        if(this.events.size() == other.events.size())
         {
-            return true;
+            Collections.sort(this.events);
+            Collections.sort(other.events);
+            
+            return Objects.equals(this.events, other.events);
         }
         
         return false;

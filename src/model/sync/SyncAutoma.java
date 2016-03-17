@@ -55,7 +55,7 @@ public class SyncAutoma
     {
         this.states = new HashSet <> ();
         this.transitions = new HashSet <> ();
-        this.ambiguous =  Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toSet()));
+        this.ambiguous =  Suppliers.memoize(() -> this.transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toSet()));
     }
     
     /**
@@ -69,7 +69,7 @@ public class SyncAutoma
         this.initial = initial;
         this.states = states;
         this.transitions = transitions;
-        this.ambiguous = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toSet()));
+        this.ambiguous = Suppliers.memoize(() -> this.transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toSet()));
     }
     
     /**
@@ -85,7 +85,7 @@ public class SyncAutoma
         this.initial = initial;
         this.states = states;
         this.transitions = transitions;
-        this.ambiguous = Suppliers.memoize(() -> ambiguous);
+        this.ambiguous = Suppliers.memoize(() -> this.transitions.stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toSet()));
     }
 
     /**

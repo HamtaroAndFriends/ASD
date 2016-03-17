@@ -362,6 +362,7 @@ public class ControllerTwin
                           System.out.println();
                       
                       // É sempre osservabile dopo il primo twin o sbaglio?
+                      // 
                       if(t1.getEvent().equals(t2.getEvent()) && t1.isObservable() && !t1.equals(t2))
                       {
                           SyncTransition t12 = new SyncTransition(t1,t2);
@@ -377,8 +378,7 @@ public class ControllerTwin
               }
               
            }
-           
-           //sDue contiene 10 stati, 2 in più di quello che dovrebbe
+          
                       
            while(!sDue.equals(sPrev))
            {

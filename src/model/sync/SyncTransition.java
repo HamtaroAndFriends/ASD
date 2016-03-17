@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import model.Event;
 import model.Transition;
 
 /**
@@ -112,11 +113,21 @@ public class SyncTransition
         return (t1.isFault() && !t2.isFault()) || (!t1.isFault() && t2.isFault());
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public int hashCode()
     {
         int hash = 7;
-        hash = 67 * hash + 17 * (Objects.hashCode(this.t1) * Objects.hashCode(this.t2));
+        SyncState start = new SyncState(this.t1.getStart(), this.t2.getStart());
+        SyncState end = new SyncState(this.t1.getEnd(), this.t2.getEnd());
+        Event e = this.t1.getEvent();
+        
+        hash = 67 * hash + (Objects.hashCode(start));
+        hash = 67 * hash + (Objects.hashCode(end));
+        hash = 67 * hash + (Objects.hashCode(e));
         return hash;
     }
 
@@ -134,13 +145,13 @@ public class SyncTransition
         
         final SyncTransition other = (SyncTransition) obj;
         
-        if (!Objects.equals(this.t1, other.t1)) {
-            return false;
+        if (Objects.equals(this.t1, other.t1) && Objects.equals(this.t2, other.t2)) {
+            return true;
         }
-        if (!Objects.equals(this.t2, other.t2)) {
-            return false;
+        if (Objects.equals(this.t1, other.t2) && Objects.equals(this.t2, other.t2)) {
+            return true;
         }
-        return true;
+        return false;
     }
   
 }

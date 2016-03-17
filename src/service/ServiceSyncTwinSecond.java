@@ -20,6 +20,12 @@ import model.sync.SyncTransition;
  */
 public class ServiceSyncTwinSecond 
 {
+    /**
+     * 
+     * @param x
+     * @param ti
+     * @return 
+     */
     public SyncAutoma getSyncTwin2(SyncAutoma x, Set <Transition> ti)
     {
         Set <SyncTransition> ta = x.getTransitions().stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toSet());

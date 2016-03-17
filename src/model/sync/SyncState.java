@@ -98,7 +98,8 @@ public class SyncState
      * @return 
      */
     @Override
-    public int hashCode() {
+    public int hashCode() 
+    {
         int hash = 5;
         hash = 79 * hash + 17 * (Objects.hashCode(this.state1) +  Objects.hashCode(this.state2));
         return hash;

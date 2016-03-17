@@ -5,6 +5,7 @@
  */
 package model.sync;
 
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -110,6 +111,36 @@ public class SyncTransition
     {
         return (t1.isFault() && !t2.isFault()) || (!t1.isFault() && t2.isFault());
     }
-    
-    
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 67 * hash + 17 * (Objects.hashCode(this.t1) * Objects.hashCode(this.t2));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        final SyncTransition other = (SyncTransition) obj;
+        
+        if (!Objects.equals(this.t1, other.t1)) {
+            return false;
+        }
+        if (!Objects.equals(this.t2, other.t2)) {
+            return false;
+        }
+        return true;
+    }
+  
 }

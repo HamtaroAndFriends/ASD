@@ -65,6 +65,8 @@ public class ControllerSyncTest {
     }
     /**
      * Test of getSyncTwin method, of class ControllerTwin.
+     * @throws javax.xml.bind.JAXBException
+     * @throws java.io.FileNotFoundException
      */
     @Test
     public void testGetSyncTwin() throws JAXBException, FileNotFoundException

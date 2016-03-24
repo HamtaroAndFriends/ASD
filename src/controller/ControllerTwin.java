@@ -399,7 +399,7 @@ public class ControllerTwin
                        {
                            // Stessa considerazione sull'osservabilità 
                            // Aggiunte altre condizioni sulla transizione
-                           if(t1.getEvent().equals(t2.getEvent()) && t1.isObservable() && !t1.equals(t2) && t1.getStart().equals(s12.getState1()) && t2.getStart().equals(s12.getState2()))
+                           if(t1.getEvent().equals(t2.getEvent()) && t1.isObservable() && t1.getStart().equals(s12.getState1()) && t2.getStart().equals(s12.getState2()))
                            {
                                SyncTransition t12 = new SyncTransition(t1,t2);
                                SyncState sAB = new SyncState(t1.getEnd(),t2.getEnd());

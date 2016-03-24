@@ -126,9 +126,7 @@ public class SyncState
         if (Objects.equals(this.state1, other.state1) && Objects.equals(this.state2, other.state2)) {
             return true;
         }
-        if (Objects.equals(this.state2, other.state1) && Objects.equals(this.state1, other.state2)) {
-            return true;
-        }
+        
         return false;
     }
     

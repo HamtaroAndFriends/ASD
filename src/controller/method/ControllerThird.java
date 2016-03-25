@@ -58,7 +58,7 @@ public class ControllerThird {
             if (i > 1) {
                 Set<Transition> tPrev = prevBad.getTransitions();
                 Set<Transition> tNext = nextBad.getTransitions();
-                tNext.retainAll(tPrev);//retainAll leva da tNext le transizioni che erano presenti anche in tPrev
+                tNext.removeAll(tPrev);//removeAll leva da tNext le transizioni che erano presenti anche in tPrev
                 transizioniAggiunte.put(i, tNext);
             }
             if (cd.isDiagnosabilityC3(container.getBads()) || cd.isDiagnosabilityC2(container.getBads())) {

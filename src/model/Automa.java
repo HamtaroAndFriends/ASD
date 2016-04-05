@@ -36,15 +36,15 @@ public class Automa
     /**
      * 
      */
-    @XmlElementWrapper
-    @XmlElement
+    @XmlElementWrapper(name = "states")
+    @XmlElement(name = "state")
     private Set <State> states; 
     
     /**
      * 
      */
-    @XmlElementWrapper
-    @XmlElement
+    @XmlElementWrapper(name = "transitions")
+    @XmlElement(name = "transition")
     private Set <Transition> transitions;
     
     /**

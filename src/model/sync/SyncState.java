@@ -8,8 +8,10 @@ package model.sync;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import model.State;
 
 /**
@@ -17,19 +19,18 @@ import model.State;
  * @author Fede
  */
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(propOrder = {"name"})
 public class SyncState
 {
     /**
      * 
      */
-    @XmlElement
     private State state1;
     
     /**
      * 
      */
-    @XmlElement
     private State state2;
     
     /**
@@ -88,9 +89,19 @@ public class SyncState
      * 
      * @return 
      */
+    @XmlAttribute
     public String getName()
     {
         return this.state1.getName() + this.state2.getName();
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public boolean isInitial()
+    {
+        return this.state1.isInitial() && this.state2.isInitial();
     }
 
     /**

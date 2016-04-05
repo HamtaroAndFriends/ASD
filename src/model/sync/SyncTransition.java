@@ -10,7 +10,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import model.Event;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import model.Transition;
 
 /**
@@ -18,19 +19,18 @@ import model.Transition;
  * @author Fede
  */
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlType(propOrder = {"start", "end", "ambiguous"})
 public class SyncTransition
 {
     /**
      * 
      */
-    @XmlElement
     private Transition t1;
     
     /**
      * 
      */
-    @XmlElement
     private Transition t2;
 
     /**
@@ -53,6 +53,7 @@ public class SyncTransition
      * 
      * @return 
      */
+    @XmlTransient
     public Transition getT1() 
     {
         return t1;
@@ -71,6 +72,7 @@ public class SyncTransition
      * 
      * @return 
      */
+    @XmlElement
     public SyncState getStart()
     {
         return new SyncState(t1.getStart(), t2.getStart());
@@ -80,6 +82,7 @@ public class SyncTransition
      * 
      * @return 
      */
+    @XmlTransient
     public Transition getT2() 
     {
         return t2;
@@ -98,6 +101,7 @@ public class SyncTransition
      * 
      * @return 
      */
+    @XmlElement
     public SyncState getEnd()
     {
         return new SyncState(t1.getEnd(), t2.getEnd());
@@ -117,7 +121,6 @@ public class SyncTransition
      * 
      * @return 
      */
-    
     @Override
     public int hashCode() 
     {
@@ -127,6 +130,11 @@ public class SyncTransition
         return hash;
     }
 
+    /**
+     * 
+     * @param obj
+     * @return 
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

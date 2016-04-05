@@ -6,13 +6,15 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -21,14 +23,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Samuele Colombo
  */
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 public class Event 
 {
     /*
     *
     */
-    @XmlElementWrapper
-    @XmlElement
+    @XmlList
+    @XmlElement(name = "event")
     private List<String> events;
 
     /**
@@ -71,6 +73,16 @@ public class Event
      * 
      * @return 
      */
+    @XmlAttribute
+    public boolean isObservable()
+    {
+        return !events.isEmpty();
+    }
+    
+    /**
+     * 
+     * @return 
+     */
     @Override
     public int hashCode() 
     {
@@ -104,12 +116,7 @@ public class Event
         }
         
         final Event other = (Event) obj;
-        
-        /*if (!Objects.equals(this.events, other.events))
-        {
-            return false;
-        }*/
-        
+                
         // The simplest way
         if(this.events.size() == other.events.size())
         {
@@ -121,6 +128,17 @@ public class Event
         
         return false;
     }
+
+    /**
+     * 
+     * @return 
+     */
+    @Override
+    public String toString() 
+    {
+        return Arrays.toString(events.toArray());
+    }
+    
     
     
     

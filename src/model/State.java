@@ -9,10 +9,8 @@ import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlValue;
 
 /**
  * The definition of the {@link State} class.
@@ -23,6 +21,8 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class State 
 {
+    private final static String STR = "State : %s";
+    
     /**
      * 
      */
@@ -38,7 +38,7 @@ public class State
     /**
      *  
      */
-    @XmlAttribute(required = false)
+    @XmlTransient
     private boolean isInitial;
 
     /**
@@ -175,8 +175,14 @@ public class State
         return true;
     }
 
-    public String toString(){
-        return "Stato:"+name;
+    /**
+     * 
+     * @return 
+     */
+    @Override
+    public String toString()
+    {
+        return String.format(STR, this.name);
     }
     
     

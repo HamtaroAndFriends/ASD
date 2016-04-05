@@ -13,8 +13,10 @@ import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -22,24 +24,27 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"initial", "states", "transitions"})
 public class SyncAutoma 
 {
     /**
      * 
      */
-    @XmlElement
+    @XmlElement(name = "initial")
     private SyncState initial;
     
     /**
      * 
      */
-    @XmlElement
+    @XmlElementWrapper(name = "states")
+    @XmlElement(name = "state")
     private Set <SyncState> states;
     
     /**
      * 
      */
-    @XmlElement
+    @XmlElementWrapper(name = "transitions")
+    @XmlElement(name = "transition")
     private Set <SyncTransition> transitions;
     
     /**

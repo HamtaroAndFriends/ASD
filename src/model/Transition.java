@@ -5,12 +5,15 @@
  */
 package model;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * The definition of the {@link Transition} class.
@@ -21,6 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Transition 
 {
+    private final static String STR = "Start: %s \tEnd: %s \tFault: %b \tEvents: %s";
     /**
      * 
      */
@@ -36,7 +40,7 @@ public class Transition
     /**
      * 
      */
-    @XmlElement
+    @XmlElement(name = "events")
     private Event event;
     
     /**
@@ -46,9 +50,9 @@ public class Transition
     private boolean isFault;
     
     /**
-     * 
+     * @deprecated
      */
-    @XmlElement
+    @XmlTransient
     private boolean isObservable;
     
     /**
@@ -75,7 +79,7 @@ public class Transition
         this.isFault = isFault;
         this.isObservable = isObservable;
     }
-    
+        
     /**
      * Get the initial {@link State} of the transition.
      * @return 
@@ -144,9 +148,8 @@ public class Transition
      * @return 
      */
     public boolean isObservable() 
-    {
-        //return isObservable;  
-        return !event.getEvents().isEmpty();
+    { 
+        return event.isObservable();
     }
 
     /**
@@ -226,8 +229,14 @@ public class Transition
     }
 
 
-  public String toString(){
-        return "Tranizione,Iniziale:"+start+" Finale:"+end+" isguasto:"+isFault;
+    /**
+     * 
+     * @return 
+     */
+    @Override
+    public String toString()
+    {
+        return String.format(STR, start, end, isFault, event.toString());
     }
     
 }

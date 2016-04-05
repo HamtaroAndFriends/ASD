@@ -27,7 +27,7 @@ public class ServiceXML
      * @throws FileNotFoundException
      * @throws JAXBException 
      */
-    public Automa readAutomaXML(String path) throws FileNotFoundException, JAXBException
+    public static Automa readAutoma(String path) throws FileNotFoundException, JAXBException
     {
         File file = new File(path);
         
@@ -50,7 +50,7 @@ public class ServiceXML
      * @throws FileNotFoundException
      * @throws JAXBException 
      */
-    public SyncAutoma readSyncAutomaXML(String path) throws FileNotFoundException, JAXBException
+    public static SyncAutoma readSyncAutoma(String path) throws FileNotFoundException, JAXBException
     {
         File file = new File(path);
         
@@ -72,7 +72,7 @@ public class ServiceXML
      * @param file
      * @throws JAXBException 
      */
-    public void writeAutomaXML(Automa automa, File file) throws JAXBException
+    public static void writeAutoma(Automa automa, File file) throws JAXBException
     {
         JAXBContext context = JAXBContext.newInstance(Automa.class);
         Marshaller marshaller = context.createMarshaller();
@@ -85,7 +85,7 @@ public class ServiceXML
      * @param automa
      * @throws JAXBException 
      */
-    public void writeAutomaXML(SyncAutoma automa) throws JAXBException
+    public static void writeAutoma(SyncAutoma automa) throws JAXBException
     {
         JAXBContext context = JAXBContext.newInstance(SyncAutoma.class);
         Marshaller marshaller = context.createMarshaller();
@@ -99,7 +99,7 @@ public class ServiceXML
      * @param file
      * @throws JAXBException 
      */
-    public void writeSyncAutomaXML(SyncAutoma automa, File file) throws JAXBException
+    public static void writeSyncAutoma(SyncAutoma automa, File file) throws JAXBException
     {
         JAXBContext context = JAXBContext.newInstance(SyncAutoma.class);
         Marshaller marshaller = context.createMarshaller();
@@ -112,7 +112,7 @@ public class ServiceXML
      * @param automa
      * @throws JAXBException 
      */
-    public void writeSyncAutomaXML(SyncAutoma automa) throws JAXBException
+    public static void writeSyncAutoma(SyncAutoma automa) throws JAXBException
     {
         JAXBContext context = JAXBContext.newInstance(SyncAutoma.class);
         Marshaller marshaller = context.createMarshaller();

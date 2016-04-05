@@ -65,7 +65,7 @@ public class ControllerFirst
             i++;
         }
         
-        return -1;
+        return i;
     }
     
     /**

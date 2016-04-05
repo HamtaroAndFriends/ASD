@@ -353,13 +353,11 @@ public class ControllerTwin
               
               for(Transition t1: allT)
               {
-               System.out.println();
                   
                   for(Transition t2: notFaultT)
                   {
                       // Cosa serve questo controllo?
                       if(t1.getStart().equals(t2.getStart()) && t1.getEnd().equals(t2.getEnd()) && t1.isFault())
-                          System.out.println();
                       
                       // É sempre osservabile dopo il primo twin o sbaglio?
                       // 
@@ -416,7 +414,6 @@ public class ControllerTwin
                }
            }
         }
-        System.out.println();
         return new SyncAutoma(so, sDue, tDue, ta);
     }
     

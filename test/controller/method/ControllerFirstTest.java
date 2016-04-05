@@ -67,7 +67,7 @@ public class ControllerFirstTest {
         Container container = new Container();
         container.setAutoma(automa);
         
-        int result = controllerFirst.performFirstMethod(container, 4);
+        int result = controllerFirst.performFirstMethod(container, 3);
         
         System.out.println(result);
     }

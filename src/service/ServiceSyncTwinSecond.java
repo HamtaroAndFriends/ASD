@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Set;
 import java.util.stream.Collectors;
+import model.Automa;
 import model.Transition;
 import model.sync.SyncAutoma;
 import model.sync.SyncState;
@@ -24,28 +25,29 @@ public class ServiceSyncTwinSecond
      * 
      * @param x
      * @param ti
+     * @param bad
      * @return 
      */
-    public SyncAutoma getSyncTwin2(SyncAutoma x, Set <Transition> ti)
+    public SyncAutoma getSyncTwin2(SyncAutoma x, Set <Transition> ti, Automa bad)
     {
         Set <SyncTransition> ta = x.getTransitions().stream().filter((t) -> (t.isAmbiguous())).collect(Collectors.toSet());
         Set <SyncTransition> tTwo = x.getTransitions();
-        Set <SyncState> sTwo = x.getStates();
+        Set <SyncState> sTwo = new HashSet <> (x.getStates());
         Set <SyncState> sTemp = new HashSet <> (sTwo);
+        Set <Transition> transitions = new HashSet <> (bad.getTransitions());
         
         for(SyncState sasb : x.getStates())
         {
             Set <SyncTransition> pairs =
                     ti
                     .stream()
-                    .flatMap((t1) -> (ti.stream().map((t2) -> new SyncTransition(t1, t2))))
-                    .collect(Collectors.toSet())
-                    .stream()
+                    .flatMap((t1) -> 
+                            (ti.stream().map((t2) -> new SyncTransition(t1, t2))))
                     .filter((t) -> (
-                            t.getT1().getStart().equals(sasb.getState1()) 
-                            && t.getT2().getStart().equals(sasb.getState2()))
-                            && t.getT1().getEvent().equals(t.getT2().getEvent()))
-                    .collect(Collectors.toSet());
+                        t.getT1().getStart().equals(sasb.getState1()) 
+                        && t.getT2().getStart().equals(sasb.getState2()))
+                        && t.getT1().getEvent().equals(t.getT2().getEvent()))
+                .collect(Collectors.toSet());
             
             for(SyncTransition t1t2 : pairs)
             {
@@ -68,16 +70,26 @@ public class ServiceSyncTwinSecond
             for(SyncState sasb : diff)
             {
                 Set <SyncTransition> pairs =
-                    ti
+                    transitions
                     .stream()
-                    .flatMap((t1) -> (ti.stream().map((t2) -> new SyncTransition(t1, t2))))
-                    .collect(Collectors.toSet())
-                    .stream()
-                    .filter((t) -> (
+                    .flatMap((t1) -> (
+                            transitions.stream().map((t2) -> (
+                                    new SyncTransition(t1, t2)))
+                        )
+                    )
+                    .filter((t1t2) -> (
+                            t1t2.getStart().equals(sasb)
+                            && bad.getNotFaults().contains(t1t2.getT2())
+                            && t1t2.getT1().getEvent().equals(t1t2.getT2().getEvent())
+                            && t1t2.getT1().isObservable()
+                        )
+                    )
+                    .collect(Collectors.toSet());
+                    /*.filter((t) -> (
                             t.getT1().getStart().equals(sasb.getState1()) 
                             && t.getT2().getStart().equals(sasb.getState2()))
                             && t.getT1().getEvent().equals(t.getT2().getEvent()))
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toSet());*/
                 
                 for(SyncTransition t1t2 : pairs)
                 {
@@ -92,7 +104,7 @@ public class ServiceSyncTwinSecond
             }
         }
         
-        return new SyncAutoma(x.getInitial(), sTwo, tTwo);
+        return new SyncAutoma(x.getInitial(), sTwo, ta);
         
     }
 }

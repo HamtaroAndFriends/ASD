@@ -95,7 +95,7 @@ public class ServiceSyncTwinSecondTest {
         transizioniAggiunte.put(level2, tNext);
 
         ServiceSyncTwinSecond service = new ServiceSyncTwinSecond();
-        SyncAutoma sync2 = service.getSyncTwin2(sync, tNext);
+        SyncAutoma sync2 = service.getSyncTwin2(sync, tNext, nextBad2);
         
         
         
@@ -113,7 +113,7 @@ public class ServiceSyncTwinSecondTest {
         tNext.removeAll(tPrev);//removeAll leva da tNext le transizioni che erano presenti anche in tPrev
         transizioniAggiunte.clear();
         transizioniAggiunte.put(level3, tNext);
-        SyncAutoma sync3 = service.getSyncTwin2(sync2, tNext);
+        SyncAutoma sync3 = service.getSyncTwin2(sync2, tNext, nextBad3);
 
         
         

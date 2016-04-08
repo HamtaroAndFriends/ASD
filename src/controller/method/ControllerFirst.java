@@ -5,6 +5,7 @@
  */
 package controller.method;
 
+import controller.ControllerDiagnosability;
 import controller.ControllerTwin;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
+import javax.xml.bind.JAXBException;
 import model.Automa;
 import model.Container;
 import model.sync.SyncAutoma;
@@ -41,11 +43,11 @@ public class ControllerFirst
      * @param l 
      * @return  
      */
-    public int performFirstMethod(Container container, int l)
+    public int performFirstMethod(Container container, int l) throws JAXBException
     {
         int i = 1;
         
-        while(i < l)
+        while(i <= l)
         {
             int level = i;
             // Retrieve the bad twin of level i-1 (if i-1 is equal to zero, then perform the bad twin
@@ -56,13 +58,25 @@ public class ControllerFirst
             Automa nextGood = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(nextBad)));
             // Syncrhonized the twins
             SyncAutoma syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);
-
-            if(isFollowedByAnEndlessLoop(syncAutoma))
+            
+            //ControllerDiagnosability cd = new ControllerDiagnosability();
+            
+           
+            if(isFollowedByAnEndlessLoop(syncAutoma)){
+              System.out.println("samu"+i);
+                return i-1;
+            }
+            else {
+                  System.out.println("ciao"+i);
+                i++;
+                
+            }
+           /* if(isFollowedByAnEndlessLoop(syncAutoma))
             {
                 return (i - 1);
-            }
+            }*/
             
-            i++;
+            
         }
         
         return l;
@@ -156,35 +170,42 @@ public class ControllerFirst
      * @param st
      * @return 
      */
+  
+    
     public boolean isFollowedByAnEndlessLoop(SyncAutoma automa, SyncTransition st)
     {
-        Queue <SyncState> queue = new ConcurrentLinkedQueue <> ();     
+        Queue <SyncState> queue = new ConcurrentLinkedQueue <> (); 
+        Set <SyncState> visited = new HashSet<>();
+        
+        SyncState start = st.getStart();
+        SyncState end = st.getEnd();
+        
+        if(start.equals(end)) return true;
               
         // To do: check if the start have to been added (in the last one iteration can occur troubles)
-        queue.add(new SyncState(st.getT1().getStart(), st.getT2().getStart()));
-        queue.add(new SyncState(st.getT1().getEnd(), st.getT2().getEnd()));
+        visited.add(start);
+        queue.add(end);
         
-        // This SyncTransition is in a loop
-        if(queue.size() == 2) return true;
         
         // Until the queue is not empty
         while(!queue.isEmpty())
         {
-            // Get the last one pushed element
+            // Get the head
             SyncState state = queue.poll();
             
             // Get all transitions that start with {@link SyncState} state.
-            List <SyncTransition> syncTransition = automa
+            Set <SyncTransition> syncTransition = automa
                     .getTransitions()
                     .stream()
                     .filter((t) -> (t.getStart().equals(state)))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
             
             // Loop on all transition from the current state
             for(SyncTransition t : syncTransition)
             {
-                if(queue.contains(t.getEnd()))
+                if(visited.contains(t.getEnd()))
                 {
+                   
                     return true;
                 }
                 else
@@ -193,10 +214,11 @@ public class ControllerFirst
                     queue.add(t.getEnd());
                 }
             }
+            
+            visited.add(state);
         }
         
         return false;
     }
-    
 
 }

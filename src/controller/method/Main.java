@@ -32,7 +32,7 @@ public class Main {
        ControllerSecond cs=new ControllerSecond();
        Container container = new Container();
        container.setAutoma(automa);
-       //System.out.println(cf.performFirstMethod(container, 4));
+       //System.out.println("risultato"+cf.performFirstMethod(container, 2));
        System.out.println(cs.performSecondMethod(container, 4));
     }
         

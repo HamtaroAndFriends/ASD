@@ -97,42 +97,53 @@ public class ControllerSecond {
     
     public Set <SyncTransition> getFirstAmbiguousTransitions(SyncAutoma automa, SyncState state)
     {
-        System.out.println("automa:"+automa); 
-        System.out.println("stato:"+state); 
+        Queue <SyncState> queue = new ConcurrentLinkedQueue<>() ;
+        Set <SyncState> visited = new HashSet <> ();
         Set <SyncTransition> ambiguous = new HashSet <> ();
-        //System.out.println("passo12"); 
-        for(SyncTransition t : automa.getTransitions().stream().filter((s) -> (s.getStart().equals(state))).collect(Collectors.toSet()))
+        
+        queue.add(automa.getInitial());
+        
+        while(!queue.isEmpty())
         {
-            if(!t.isAmbiguous())
-            {
-                //System.out.println("passo13"); 
-                ambiguous.addAll(getFirstAmbiguousTransitions(automa, t.getEnd()));
-            }
-            else
-            {
-               //System.out.println("passo14"); 
-                ambiguous.add(t);
-            }
+            // Pop the element on head
+            SyncState current = queue.poll();
+            
+            // If the element was already visited skip to the next loop
+            if(visited.contains(current)) continue;
+            
+            // Save the set of all ambiguos transition from the current state
+            ambiguous.addAll(automa.getAmbiguous().stream().filter((t) -> (t.getStart().equals(current))).collect(Collectors.toSet()));
+            
+            // Add to the queue the end state of each transition the stars from the current state (and is not ambiguous)
+            queue.addAll(automa.getTransitions().stream().filter((t) -> (t.getStart().equals(current) && !t.isAmbiguous() && !visited.contains(t.getEnd()))).map((t) -> (t.getEnd())).collect(Collectors.toSet()));
+            
+            // Mark the current state as visited
+            visited.add(current);  
         }
+        
         
         return ambiguous;
     }
     
     public boolean isFollowedByAnEndlessLoop(SyncAutoma automa, SyncTransition st)
     {
-        Queue <SyncState> queue = new ConcurrentLinkedQueue <> ();     
+        Queue <SyncState> queue = new ConcurrentLinkedQueue <> (); 
+        Set <SyncState> visited = new HashSet<>();
+        
+        SyncState start = st.getStart();
+        SyncState end = st.getEnd();
+        
+        if(start.equals(end)) return true;
               
         // To do: check if the start have to been added (in the last one iteration can occur troubles)
-        queue.add(new SyncState(st.getT1().getStart(), st.getT2().getStart()));
-        queue.add(new SyncState(st.getT1().getEnd(), st.getT2().getEnd()));
+        visited.add(start);
+        queue.add(end);
         
-        // This SyncTransition is in a loop
-        if(queue.size() == 2) return true;
         
         // Until the queue is not empty
         while(!queue.isEmpty())
         {
-            // Get the last one pushed element
+            // Get the head
             SyncState state = queue.poll();
             
             // Get all transitions that start with {@link SyncState} state.
@@ -145,8 +156,9 @@ public class ControllerSecond {
             // Loop on all transition from the current state
             for(SyncTransition t : syncTransition)
             {
-                if(queue.contains(t.getEnd()))
+                if(visited.contains(t.getEnd()))
                 {
+                   
                     return true;
                 }
                 else
@@ -155,10 +167,14 @@ public class ControllerSecond {
                     queue.add(t.getEnd());
                 }
             }
+            
+            visited.add(state);
         }
         
         return false;
     }
+
+    
     
 
 

@@ -353,7 +353,7 @@ public class ControllerTwin
               
               for(Transition t1: allT)
               {
-               System.out.println();
+               //System.out.println();
                   
                   for(Transition t2: notFaultT)
                   {

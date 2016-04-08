@@ -53,15 +53,24 @@ public class ControllerSecond {
                 i++;
             } else {
                 // Retrieve or generate the good twin of level i
+               //System.out.println("COntrolloDiagnosability fallita");
                 Automa nextGood = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(nextBad)));
                 // Syncrhonized the twins
+               System.out.println("passo1");
                 SyncAutoma syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood); // metodo1 di sincronizzazione
+                System.out.println("passo2");
                 Set <SyncTransition> lst=syncAutoma.getTransitions();
+               System.out.println("passo3");
                 if(cd.isDiagnosabilityC1(lst)){
-                    i++;
+                 //   System.out.println("COntrolloDiagnosability finale");
+                 System.out.println("passo4");   
+                 i++;
                 }else{
+                    System.out.println("passo5");      
                     if (isFollowedByAnEndlessLoop(syncAutoma)) {
-                    return (i - 1);
+                  //  System.out.println("endlessSummer");
+                  System.out.println("passo6");      
+                  return (i - 1);
                 }
 
                 }
@@ -75,28 +84,33 @@ public class ControllerSecond {
     
     public boolean isFollowedByAnEndlessLoop(SyncAutoma automa)
     {
-        Set <SyncTransition> ambiguous = getFirstAmiguousTransitions(automa, automa.getInitial());
+        Set <SyncTransition> ambiguous = getFirstAmbiguousTransitions(automa, automa.getInitial()); //qua c'è un problema
         
         for(SyncTransition t : ambiguous)
         {
+            System.out.println("passo10"); 
             if(isFollowedByAnEndlessLoop(automa, t)) return true;
         }
         
         return false;
     }
     
-    public Set <SyncTransition> getFirstAmiguousTransitions(SyncAutoma automa, SyncState state)
+    public Set <SyncTransition> getFirstAmbiguousTransitions(SyncAutoma automa, SyncState state)
     {
+        System.out.println("automa:"+automa); 
+        System.out.println("stato:"+state); 
         Set <SyncTransition> ambiguous = new HashSet <> ();
-        
+        //System.out.println("passo12"); 
         for(SyncTransition t : automa.getTransitions().stream().filter((s) -> (s.getStart().equals(state))).collect(Collectors.toSet()))
         {
             if(!t.isAmbiguous())
             {
-                ambiguous.addAll(getFirstAmiguousTransitions(automa, t.getEnd()));
+                //System.out.println("passo13"); 
+                ambiguous.addAll(getFirstAmbiguousTransitions(automa, t.getEnd()));
             }
             else
             {
+               //System.out.println("passo14"); 
                 ambiguous.add(t);
             }
         }

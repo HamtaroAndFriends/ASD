@@ -74,7 +74,7 @@ public class ControllerThird {
                     syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);//metodo1 di sincronizzazione
 
                 } else {
-                    syncAutoma = controllerTwin.getSyncTwin2(automiSincronizzati.get(i - 1), transizioniAggiunte.get(i));//metodo2 si sincronizzazione
+                    syncAutoma = controllerTwin.getSyncSD(automiSincronizzati.get(i - 1), transizioniAggiunte.get(i), nextBad);//metodo2 si sincronizzazione
 
                 }
                 automiSincronizzati.put(i, syncAutoma);

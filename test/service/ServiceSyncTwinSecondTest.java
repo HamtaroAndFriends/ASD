@@ -68,18 +68,20 @@ public class ServiceSyncTwinSecondTest {
 
     /**
      * Test of getSyncTwin2 method, of class ServiceSyncTwinSecond.
+     * @throws java.io.FileNotFoundException
+     * @throws javax.xml.bind.JAXBException
      */
     @Test
     public void testGetSyncTwin2() throws FileNotFoundException, JAXBException
     {
         Automa bad1 = controllerTwin.getBadTwin(automa, 1);
-        Automa bad2 = controllerTwin.getBadTwin(bad1, 2);
         Automa good1 = controllerTwin.getGoodTwin(bad1);
         Container container = new Container();
         container.setAutoma(automa);
         container.getBads().put(1, bad1);
+        Automa bad2 = controllerTwin.getBadTwin(bad1, 2);
         container.getBads().put(2, bad2);
-        SyncAutoma sync = controllerTwin.getSyncTwin(bad1, good1);
+        SyncAutoma sync1 = controllerTwin.getSyncTwin(bad1, good1);
         
         
         //Computing syncAutoma of level 2
@@ -95,7 +97,7 @@ public class ServiceSyncTwinSecondTest {
         transizioniAggiunte.put(level2, tNext);
 
         ServiceSyncTwinSecond service = new ServiceSyncTwinSecond();
-        SyncAutoma sync2 = service.getSyncTwin2(sync, tNext, nextBad2);
+        SyncAutoma sync2 = service.getSyncSD(sync1, tNext, nextBad2);
         
         
         
@@ -104,16 +106,18 @@ public class ServiceSyncTwinSecondTest {
         Automa bad3 = controllerTwin.getBadTwin(bad2, 3);
         container.getBads().put(3, bad3);
         // Retrieve the bad twin of level i-1 (if i-1 is equal to zero, then perform the bad twin
-        Automa prevBad3 = container.getBads().computeIfAbsent(level3 - 1, (a) -> (controllerTwin.getBadTwin(container.getAutoma(), level3 - 1)));
+        Automa prevBad3 = container.getBads().computeIfAbsent(level3 - 1, (a) -> (controllerTwin.getBadTwin(container.getBads().get(2), level3 - 1)));
         // Retrieve or generate the bad twin of level i
         Automa nextBad3 = container.getBads().computeIfAbsent(level3, (a) -> (controllerTwin.getBadTwin(prevBad3, level3)));
 
-        tPrev = prevBad3.getTransitions();
-        tNext = nextBad3.getTransitions();
+        //tPrev = prevBad3.getTransitions();
+        //tNext = nextBad3.getTransitions();
+        tPrev.addAll(container.getBads().get(2).getTransitions());
+        tNext.addAll(container.getBads().get(3).getTransitions());
         tNext.removeAll(tPrev);//removeAll leva da tNext le transizioni che erano presenti anche in tPrev
         transizioniAggiunte.clear();
         transizioniAggiunte.put(level3, tNext);
-        SyncAutoma sync3 = service.getSyncTwin2(sync2, tNext, nextBad3);
+        SyncAutoma sync3 = service.getSyncSD(sync2, tNext, nextBad3);
 
         
         

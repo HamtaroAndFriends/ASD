@@ -57,13 +57,13 @@ public class Automa
      * 
      */
     @XmlTransient
-    private Supplier <Set <Transition>> observables;
+    private Set <Transition> observables;
     
     /**
      * 
      */
     @XmlTransient
-    private Supplier <Set <Transition>> faults;
+    private Set <Transition> faults;
    
     
     /**
@@ -75,8 +75,10 @@ public class Automa
         this.states = new HashSet <> ();
         this.transitions = new HashSet <> ();
         
-        this.observables = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isObservable() == true)).collect(Collectors.toSet()));
-        this.faults = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isFault() == true)).collect(Collectors.toSet()));
+        //this.observables = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isObservable() == true)).collect(Collectors.toSet()));
+        //this.faults = Suppliers.memoize(() -> transitions.stream().filter((t) -> (t.isFault() == true)).collect(Collectors.toSet()));
+        this.faults = new HashSet<>();
+        this.observables = new HashSet<>();
         this.stateTransitions = new ConcurrentHashMap <> ();
     }
 
@@ -168,7 +170,8 @@ public class Automa
      */
     public Set<Transition> getObservables()
     {
-        return observables.get();
+        //return observables.get();
+        return transitions.stream().filter((t) -> t.isObservable()).collect(Collectors.toSet());
     }
     
     /**
@@ -188,7 +191,8 @@ public class Automa
      */
     public Set<Transition> getFaults()
     {
-        return faults.get();
+        //return faults.get();
+        return transitions.stream().filter((t) -> t.isObservable()).collect(Collectors.toSet());
     }
     
     /**

@@ -14,17 +14,14 @@ import java.util.Set;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXBException;
 import model.Automa;
 import model.Container;
 import model.Transition;
 import model.sync.SyncAutoma;
 import model.sync.SyncState;
 import model.sync.SyncTransition;
-import service.ServiceSyncTwinSecond;
 
 /**
  *
@@ -46,10 +43,9 @@ public class ControllerThird {
     /**
      *
      * @param container
-     * @param l
      * @return
      */
-    public int performThirdMethod2(Container container, int l) {
+    public int performThirdMethod(Container container, int l) {
         int i = 1;
         ControllerDiagnosability cd = new ControllerDiagnosability();
         while (i < l) {
@@ -91,76 +87,6 @@ public class ControllerThird {
         }
 
         return i;
-    }
-    
-    /**
-     * 
-     * @param container
-     * @param l
-     * @return 
-     */
-    public int performThirdMethod(Container container, int l) throws JAXBException
-    {
-        int i = 1;
-        
-        ControllerDiagnosability diagnosability = new ControllerDiagnosability();
-        ServiceSyncTwinSecond serviceTwin = new ServiceSyncTwinSecond();
-        
-        Map <Integer, SyncAutoma> syncs = new ConcurrentHashMap <> ();
-        
-        while(i <= l)
-        {
-            int level = i;
-            
-            // Calculate the bad twin of level i
-            Automa badi = container.getBads().computeIfAbsent(level - 1, (a) -> (controllerTwin.getBadTwin(container.getAutoma(), level - 1)));
-            // Initialize ti
-            Set <Transition> ti = new HashSet<>();
-            // Generate the syncAutoma
-            SyncAutoma sync;
-            
-            if(i > 1)
-            {
-                // Get the new transitions
-                ti = badi.getTransitions().stream().filter((t) -> container.getBads().get(level - 1).getTransitions().contains(t)).collect(Collectors.toSet());
-            }
-            
-            if(diagnosability.isDiagnosabilityC2(container.getBads()) || diagnosability.isDiagnosabilityC3(container.getBads()))
-            {
-                // goto INC
-                i++;
-                continue;
-            }
-            
-            if(i > 1)
-            {
-                Automa goodi = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(badi)));
-                syncs.put(i, serviceTwin.getSyncTwin2(syncs.get(i - 1), ti, badi));
-            }
-            else
-            {
-                Automa goodi = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(badi)));
-                syncs.put(i, controllerTwin.getSyncTwin(badi, goodi));
-            }
-            
-            if(diagnosability.isDiagnosabilityC1(syncs.get(i).getTransitions()))
-            {
-                //goto INC
-                i++;
-                continue;
-            }
-            
-            if (isFollowedByAnEndlessLoop(syncs.get(i)))
-            {
-                return i - 1;
-            }
-            
-            i++;
-        }
-        
-        service.ServiceXML.writeSyncAutoma(syncs.get(i - 1));
-        
-        return -1;
     }
         
       public boolean isFollowedByAnEndlessLoop(SyncAutoma automa)

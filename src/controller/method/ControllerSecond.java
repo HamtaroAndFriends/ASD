@@ -42,14 +42,15 @@ public class ControllerSecond {
     public int performSecondMethod(Container container, int l) {
         int i = 1;
 
-        while (i < l) {
+        while (i <= l) {
             int level = i;
             // Retrieve the bad twin of level i-1 (if i-1 is equal to zero, then perform the bad twin
             Automa prevBad = container.getBads().computeIfAbsent(level - 1, (a) -> (controllerTwin.getBadTwin(container.getAutoma(), level - 1)));
             // Retrieve or generate the bad twin of level i
             Automa nextBad = container.getBads().computeIfAbsent(level, (a) -> (controllerTwin.getBadTwin(prevBad, level)));
             ControllerDiagnosability cd = new ControllerDiagnosability();
-            if (cd.isDiagnosabilityC3(container.getBads()) || cd.isDiagnosabilityC2(container.getBads())) {
+            if (cd.isDiagnosabilityC3(nextBad) || cd.isDiagnosabilityC2(nextBad)) {
+                System.out.println("diagnosticabile");
                 i++;
             } else {
                 // Retrieve or generate the good twin of level i
@@ -78,8 +79,8 @@ public class ControllerSecond {
             }
 
         }
-
-        return i;
+        System.out.println("passoFuori");
+        return i-1;
     }
     
     public boolean isFollowedByAnEndlessLoop(SyncAutoma automa)

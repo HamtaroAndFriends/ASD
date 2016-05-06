@@ -47,70 +47,35 @@ public class ControllerDiagnosability
      * @param bads
      * @return 
      */
-    public boolean isDiagnosabilityC2(Map <Integer, Automa> bads)
+    public boolean isDiagnosabilityC2(Automa cattivo)
     {   
-        // To do: che significa " fino al livello considerato"
-        boolean isC2=true;
-        int level = 0;
-        
-        // Loop over the computed bad twins
-        while(bads.containsKey(level) && isC2)
-        {
-            // Check if the current bad twin is deterministic
-            if(ControllerAlphabet.isDeterministic(bads.get(level)))
-            {
-                level++;
-            }
-            else
-            {
-                isC2=false;
-            }
-        }
-        
-        return isC2;
+        return ControllerAlphabet.isDeterministic(cattivo);
     }
     
     /**
      * This function performs the diagnosability C3.
      * @return 
      */
-    public boolean isDiagnosabilityC3(Map <Integer, Automa> bads)
+    public boolean isDiagnosabilityC3(Automa cattivo)
     {
         // To do: che significa " fino al livello considerato"
-        
-        int level = 0;
-        boolean isC3=true;
-        // Loop over the computed bad twins
-        while(bads.containsKey(level) && isC3){
-            Automa twin=bads.get(level);
-            Set<Transition> t=new HashSet<>();//tutte le transizioni
-            Set<Transition> tGuasto=twin.getFaults();
-            Set<Transition> tOsservabili=twin.getObservables();
-            Set<Transition> tNonOsservabili=twin.getNotObservables();
-            t.addAll(tOsservabili);
-            t.addAll(tNonOsservabili);
-            Set<Event> eGuasti= new HashSet<>(); //eventi associati a transizioni di guasto
-            
-            for(Transition i : tGuasto){
-                if(!eGuasti.contains(i.getEvent())){
-                    eGuasti.add(i.getEvent());
-                }
-            }
-            
-            for(Transition i : t){
-                Transition transizione= i;
-                if(!transizione.isFault()){ // prendo solo le transizioni non di guasto
-                   Event e=transizione.getEvent();
-                   if(eGuasti.contains(e)){
-                       isC3=false;
-                   }
-                }
-            }
-            
-            level++;
-        }
-        
-        
-        return isC3;
+       Set <Transition> TF = cattivo.getFaults();
+       Set <Transition> TnonF = cattivo.getNotFaults();
+       
+       for(Transition t1 : TF){
+           
+           Event e = t1.getEvent();
+           
+           for(Transition t2 : TnonF){
+               
+               if(t2.getEvent().equals(e)){
+                   return false;
+               }
+               
+           }
+           
+       }
+       
+        return true;
     }
 }

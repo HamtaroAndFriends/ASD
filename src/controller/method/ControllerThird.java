@@ -61,7 +61,7 @@ public class ControllerThird {
                 tNext.removeAll(tPrev);//retainAll leva da tNext le transizioni che erano presenti anche in tPrev
                 transizioniAggiunte.put(i, tNext);
             }
-            if (cd.isDiagnosabilityC3(container.getBads()) || cd.isDiagnosabilityC2(container.getBads())) {
+            if (cd.isDiagnosabilityC3(nextBad) || cd.isDiagnosabilityC2(nextBad)) {
                 i++;
             } else {
                 SyncAutoma syncAutoma = new SyncAutoma();
@@ -70,7 +70,7 @@ public class ControllerThird {
                     syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);//metodo1 di sincronizzazione
 
                 } else {
-                    syncAutoma = controllerTwin.getSyncTwin2(automiSincronizzati.get(i - 1), transizioniAggiunte.get(i));//metodo2 si sincronizzazione
+                    syncAutoma = controllerTwin.getSyncSD(automiSincronizzati.get(i - 1), transizioniAggiunte.get(i), nextBad);//metodo2 di sincronizzazione
 
                 }
                 automiSincronizzati.put(i, syncAutoma);

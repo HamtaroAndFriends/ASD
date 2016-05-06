@@ -63,11 +63,11 @@ public class ControllerFirst
             
            
             if(isFollowedByAnEndlessLoop(syncAutoma)){
-              System.out.println("samu"+i);
+              //System.out.println("samu"+i);
                 return i-1;
             }
             else {
-                  System.out.println("ciao"+i);
+                 // System.out.println("ciao"+i);
                 i++;
                 
             }
@@ -205,7 +205,7 @@ public class ControllerFirst
             {
                 if(visited.contains(t.getEnd()))
                 {
-                   
+                   // System.out.println(t.getStart().getName()+"\n"+t.getEnd().getName());
                     return true;
                 }
                 else

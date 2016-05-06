@@ -30,10 +30,14 @@ public class Main {
        // System.out.println(ca.isVivo(automa));
        ControllerFirst cf=new ControllerFirst();
        ControllerSecond cs=new ControllerSecond();
+       ControllerThird ct=new ControllerThird();
        Container container = new Container();
        container.setAutoma(automa);
-       //System.out.println("risultato"+cf.performFirstMethod(container, 2));
-       System.out.println(cs.performSecondMethod(container, 4));
+       for(int i=1;i<7;i++){
+           System.out.println("\tRISULTATO"+cs.performSecondMethod(container, i));
+       }
+       
+       //System.out.println(cs.performSecondMethod(container, 4));
     }
         
 }

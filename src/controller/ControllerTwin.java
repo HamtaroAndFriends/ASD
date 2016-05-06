@@ -175,9 +175,11 @@ public class ControllerTwin
     public Automa getBadTwinI(Automa bad, int i)
     {
         // The list of the transitions of the previous bad twin
-        Set <Transition> t1 = bad.getTransitions();
+        Set <Transition> t1 = new HashSet<>();
+        t1.addAll(bad.getTransitions());
         // The list of the fault transitions of the previous bad twin
-        Set <Transition> tf = bad.getFaults();
+        Set <Transition> tf = new HashSet<>();
+        tf.addAll(bad.getFaults());
         
         boolean fault;
         
@@ -186,33 +188,35 @@ public class ControllerTwin
             for(Transition t : bad.getTransitions(s))
             {
                 // Is true if t is a fault transition, false if not
-                fault = tf.contains(t);
+                fault = t.isFault();
                 
                 Event ot = t.getEvent();
-                
-                Set <List <Object>> tuples = find(bad, t.getEnd(), i - ot.getEvents().size() , fault, ot);
-                
-                // Foreach triple in the list
-                for(List <Object> tuple : tuples)
+                if(t.isObservable())
                 {
-                    Event o = (Event) tuple.get(0);
-                    
-                    // Check if the simple event inside ot are not identical
-                    if(!containsIdenticalEvent(o))
+                    Set <List <Object>> tuples = find(bad, t.getEnd(), i - ot.getEvents().size(), fault, ot);
+
+                    // Foreach triple in the list
+                    for(List <Object> tuple : tuples)
                     {
-                        // Create a new transition
-                        Transition tn = new  Transition(s, (State) tuple.get(1), o, (boolean) tuple.get(2), true);
-                        
-                        // Add the transition to the list
-                        t1.add(tn);
-                        
-                        if(((Boolean)tuple.get(2)) == true)
+                        Event o = (Event) tuple.get(0);
+
+                        // Check if the simple event inside ot are not identical
+                        if(!containsIdenticalEvent(o))
                         {
-                            // Add this transition to fault list
-                            tf.add(tn);
+                            // Create a new transition
+                            Transition tn = new  Transition(s, (State) tuple.get(1), o, (boolean) tuple.get(2), true);
+
+                            // Add the transition to the list
+                            t1.add(tn);
+
+                            if(((Boolean)tuple.get(2)) == true)
+                            {
+                                // Add this transition to fault list
+                                tf.add(tn);
+                            }
                         }
                     }
-                } 
+                }
             }
         }
         
@@ -443,13 +447,11 @@ public class ControllerTwin
               
               for(Transition t1: allT)
               {
-               //System.out.println();
                   
                   for(Transition t2: notFaultT)
                   {
                       // Cosa serve questo controllo?
                       if(t1.getStart().equals(t2.getStart()) && t1.getEnd().equals(t2.getEnd()) && t1.isFault())
-                          System.out.println();
                       
                       // É sempre osservabile dopo il primo twin o sbaglio?
                       // 
@@ -506,7 +508,6 @@ public class ControllerTwin
                }
            }
         }
-        System.out.println();
         return new SyncAutoma(so, sDue, tDue, ta);
     }
     

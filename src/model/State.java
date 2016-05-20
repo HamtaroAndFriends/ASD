@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlValue;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class State 
+public class State implements Cloneable
 {
     /**
      * 
@@ -54,6 +54,8 @@ public class State
         this.name = name;
         this.isInitial = isInitial;
     }
+    
+    
     
     /**
      * 
@@ -178,6 +180,6 @@ public class State
     public String toString(){
         return "Stato:"+name;
     }
-    
-    
+
+
 }

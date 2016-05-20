@@ -88,6 +88,11 @@ public class Container
     {
         return bads;
     }
+    
+    public Automa getBad(int level)
+    {
+        return bads.getOrDefault(level, automa);
+    }
 
     /**
      * 

@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Event 
+public class Event implements Cloneable
 {
     /*
     *
@@ -121,7 +121,12 @@ public class Event
         
         return false;
     }
-    
-    
-    
+
+    @Override
+    public Object clone() throws CloneNotSupportedException 
+    {
+        Event event = (Event) super.clone(); 
+        event.events = new ArrayList<>(events);
+        return event;
+    }
 }

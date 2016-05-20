@@ -62,12 +62,12 @@ public class ControllerFirstTest {
     @Test
     public void testPerformFirstMethod() throws JAXBException 
     {
-        /*Container container = new Container();
+        Container container = new Container();
         container.setAutoma(automa);
         
         int result = controllerFirst.performFirstMethod(container, 3);
         
-        System.out.println(result);*/
+        System.out.println(result);
     }
 
     /**

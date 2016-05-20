@@ -148,9 +148,14 @@ public class Automa
      * @param start
      * @return 
      */
-    public Set<Transition> getTransitions(State start)
+    /*public Set<Transition> getTransitions(State start)
     {
         return stateTransitions.computeIfAbsent(start, (s) -> (transitions.stream().filter((t) -> (t.getStart().equals(start))).collect(Collectors.toSet())));
+    }*/
+    
+    public Set<Transition> getTransitions(State start)
+    {
+        return transitions.stream().filter((t) -> (t.getStart().equals(start))).collect(Collectors.toSet());
     }
 
     /**
@@ -171,7 +176,16 @@ public class Automa
     public Set<Transition> getObservables()
     {
         //return observables.get();
-        return transitions.stream().filter((t) -> t.isObservable()).collect(Collectors.toSet());
+        //return transitions.stream().filter((t) -> t.isObservable()).collect(Collectors.toSet());
+        
+        Set<Transition> results = new HashSet<>();
+        
+        for(Transition t : transitions)
+        {
+            if(t.isObservable()) results.add(t);
+        }
+        
+        return results;
     }
     
     /**
@@ -201,7 +215,15 @@ public class Automa
      */
     public Set<Transition> getNotFaults()
     {
-        return transitions.stream().filter((t) -> (t.isFault() == false)).collect(Collectors.toSet());
+        //return transitions.stream().filter((t) -> (t.isFault() == false)).collect(Collectors.toSet());
+        Set<Transition> results = new HashSet<>();
+        
+        for(Transition t : transitions)
+        {
+            if(!t.isFault()) results.add(t);
+        }
+        
+        return results;
     }
    
 }

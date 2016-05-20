@@ -11,6 +11,7 @@ package controller;
  */
 
 
+import java.util.HashSet;
 import java.util.Set;
 import model.Automa;
 import model.State;
@@ -21,7 +22,7 @@ public class ControllerReachable
 {
     public Set <State> getReachable(Automa evil)
     {
-        Set states = evil.getStates();
+        Set states = new HashSet(evil.getStates());
         
         for(Transition tf : evil.getFaults())
         {

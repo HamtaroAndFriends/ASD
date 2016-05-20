@@ -48,7 +48,7 @@ public class ControllerTwin
         // Get the initial state of the automa
         State so1 = automa.getInitial();
         // Get the list of all observable transitions
-        Set <Transition> to = automa.getObservables();
+        Set <Transition> to = new HashSet(automa.getObservables());
         // Get the list of all fault transitions
         Set <Transition> tf = new HashSet <> ();
         // Fault parameter
@@ -62,7 +62,8 @@ public class ControllerTwin
             for(Transition t : automa.getTransitions(s).stream().filter((p) -> (p.isObservable() == false)).collect(Collectors.toSet()))
             {
                 // Set fault if the transition is a fault one
-                fault = automa.getFaults().contains(t);
+                //fault = automa.getFaults().contains(t);
+                fault = t.isFault();
 
                 // Define the list of the tuples
                 Set <List <Object>> tuples = find(automa, t.getEnd(), 1, fault, new Event());
@@ -118,14 +119,17 @@ public class ControllerTwin
         for(Transition t : automa.getTransitions(s))
         {
             // Check if t is a fault transition
-            if(automa.getFaults().contains(t))
+            /*if(automa.getFaults().contains(t))
             {
                 fault1 = true;
             }
             else
             {
                 fault1 = fault;
-            }
+            }*/
+            
+            fault1 = (t.isFault() == true) ? true : fault;
+            
             
             // Get the event of the transition
             Event o = t.getEvent();
@@ -276,7 +280,7 @@ public class ControllerTwin
         ControllerReachable controllerReachable = new ControllerReachable();
         Set <State> s1 = controllerReachable.getReachable(bad);
         // The transitions of the bad twin except the fault ones
-        Set <Transition> t1 = bad.getNotFaults();
+        Set <Transition> t1 = new HashSet(bad.getNotFaults());
         
         return new Automa(so1, s1, t1);
     }
@@ -284,11 +288,11 @@ public class ControllerTwin
     
     /**
      * 
-     * @param bad
-     * @param good
+     * @param x
+     * @param ti
+     * @param cattivo
      * @return 
      */
-
      public SyncAutoma getSyncSD(SyncAutoma x, Set <Transition> ti, Automa cattivo){
         
         Set <SyncTransition> ta = new HashSet();
@@ -437,7 +441,7 @@ public class ControllerTwin
            Set <SyncState> sPrev = new HashSet(sDue);
            for(State s: good.getStates())
            {
-              Set <Transition> allT = bad.getTransitions(s);
+              Set <Transition> allT = new HashSet(bad.getTransitions(s));
               Set <Transition> notFaultT = bad
                       .getTransitions(s)
                       .stream()
@@ -451,11 +455,11 @@ public class ControllerTwin
                   for(Transition t2: notFaultT)
                   {
                       // Cosa serve questo controllo?
-                      if(t1.getStart().equals(t2.getStart()) && t1.getEnd().equals(t2.getEnd()) && t1.isFault())
+                      //if(t1.getStart().equals(t2.getStart()) && t1.getEnd().equals(t2.getEnd()) && t1.isFault())
                       
                       // É sempre osservabile dopo il primo twin o sbaglio?
                       // 
-                      if(t1.getEvent().equals(t2.getEvent()) && t1.isObservable() && !t1.equals(t2))
+                      if(t1.getEvent().equals(t2.getEvent()) && t1.isObservable() && !t1.equals(t2) && t1.getStart().equals(t2.getStart()))
                       {
                           SyncTransition t12 = new SyncTransition(t1,t2);
                           SyncState s12 = new SyncState(t1.getEnd(),t2.getEnd());

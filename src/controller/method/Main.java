@@ -33,9 +33,8 @@ public class Main {
        ControllerThird ct=new ControllerThird();
        Container container = new Container();
        container.setAutoma(automa);
-       for(int i=1;i<7;i++){
-           System.out.println("\tRISULTATO"+cs.performSecondMethod(container, i));
-       }
+           System.out.println("\tRISULTATO"+ct.performThirdMethod(container, 3));
+       
        
        //System.out.println(cs.performSecondMethod(container, 4));
     }

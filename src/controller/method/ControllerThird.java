@@ -30,6 +30,7 @@ import model.sync.SyncTransition;
 public class ControllerThird {
 
     private ControllerTwin controllerTwin;
+    private ControllerDiagnosability controllerDiagnosability;
     private Map<Integer, Set<Transition>> transizioniAggiunte = new HashMap<>();
     private Map<Integer, SyncAutoma> automiSincronizzati = new HashMap<>();
 
@@ -38,58 +39,142 @@ public class ControllerThird {
      */
     public ControllerThird() {
         this.controllerTwin = new ControllerTwin();
+        controllerDiagnosability = new ControllerDiagnosability();
     }
 
     /**
      *
      * @param container
+     * @param l
      * @return
      */
-    public int performThirdMethod(Container container, int l) {
+    public int performThirdMethod2(Container container, int l) {
         int i = 1;
         ControllerDiagnosability cd = new ControllerDiagnosability();
-        while (i < l) {
+        
+        Automa prevBad = container.getAutoma();
+        
+        while (i <= l) 
+        {
             int level = i;
-            // Retrieve the bad twin of level i-1 (if i-1 is equal to zero, then perform the bad twin
-            Automa prevBad = container.getBads().computeIfAbsent(level - 1, (a) -> (controllerTwin.getBadTwin(container.getAutoma(), level - 1)));
             // Retrieve or generate the bad twin of level i
-            Automa nextBad = container.getBads().computeIfAbsent(level, (a) -> (controllerTwin.getBadTwin(prevBad, level)));
+            Automa nextBad = container.getBads().computeIfAbsent(level, (a) -> (controllerTwin.getBadTwin(container.getBad(level), level)));
 
-            if (i > 1) {
-                Set<Transition> tPrev = prevBad.getTransitions();
-                Set<Transition> tNext = nextBad.getTransitions();
+            if (i > 1) 
+            {
+                Set<Transition> tPrev = new HashSet<>(prevBad.getTransitions());
+                Set<Transition> tNext = new HashSet<>(nextBad.getTransitions());
                 tNext.removeAll(tPrev);//retainAll leva da tNext le transizioni che erano presenti anche in tPrev
                 transizioniAggiunte.put(i, tNext);
             }
-            if (cd.isDiagnosabilityC3(nextBad) || cd.isDiagnosabilityC2(nextBad)) {
+            
+            if (cd.isDiagnosabilityC3(nextBad) || cd.isDiagnosabilityC2(nextBad))
+            {
                 i++;
-            } else {
-                SyncAutoma syncAutoma = new SyncAutoma();
-                if (i == 1) {
-                    Automa nextGood = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(nextBad)));
-                    syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);//metodo1 di sincronizzazione
+                prevBad = nextBad;
+                
+                continue;
+            } 
 
-                } else {
-                    syncAutoma = controllerTwin.getSyncSD(automiSincronizzati.get(i - 1), transizioniAggiunte.get(i), nextBad);//metodo2 di sincronizzazione
 
-                }
-                automiSincronizzati.put(i, syncAutoma);
-                Set <SyncTransition> lst=syncAutoma.getTransitions();
-                if(cd.isDiagnosabilityC1(lst)){
-                    i++;
-                }else{
-                    
-                   if (isFollowedByAnEndlessLoop(syncAutoma)) {
-                    return (i - 1); 
-                   }
-                }
+            SyncAutoma syncAutoma;
+
+            if(i > 1)
+            {
+                syncAutoma = controllerTwin.getSyncSD(automiSincronizzati.get(i - 1), transizioniAggiunte.get(i), nextBad);//metodo2 di sincronizzazione
             }
+            else
+            {
+                Automa nextGood = container.getGoods().computeIfAbsent(level, (a) -> (controllerTwin.getGoodTwin(nextBad)));
+                syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);//metodo1 di sincronizzazione
+            }
+
+            automiSincronizzati.put(i, syncAutoma);  
+            
+            if(cd.isDiagnosabilityC1(syncAutoma.getTransitions()))
+            {
+                i++;
+                prevBad = nextBad;
+                
+                continue;
+            }
+            
+            if (isFollowedByAnEndlessLoop(syncAutoma))
+            {
+                 return (i - 1); 
+            }
+            
+            i++;
+            prevBad = nextBad;
         }
+        
 
         return i;
     }
+    
+    public int performThirdMethod(Container container, int l)
+    {
+        int i = 1;
         
-      public boolean isFollowedByAnEndlessLoop(SyncAutoma automa)
+        Map<Integer, Set<Transition>> added = new HashMap<>();
+        Map<Integer, SyncAutoma> syncs = new HashMap<>();
+        
+        while(i <= l)
+        {
+           int level = i;
+           // Declare the syncAutoma
+           SyncAutoma syncAutoma;
+           
+           Automa nextBad = controllerTwin.getBadTwin(container.getBad(level - 1), level);
+           container.getBads().put(level, nextBad);
+           Automa nextGood = controllerTwin.getGoodTwin(nextBad);
+           container.getGoods().put(level, nextGood);
+           syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);
+           syncs.put(level, syncAutoma);
+           
+           if(i > 1)
+           {
+               Set<Transition> ti = new HashSet<>(nextBad.getTransitions());
+               Automa prevBad = container.getBad(level - 1);
+               ti.removeAll(prevBad.getTransitions()); // 20 TRANSIZIONI?? (NEXT 25, PREV 12)
+               added.put(level, ti);
+           }
+           
+           if(controllerDiagnosability.isDiagnosabilityC2(nextBad) || controllerDiagnosability.isDiagnosabilityC3(nextBad))
+           {
+               i++;
+               continue;
+           }
+           
+           if(i > 1)
+           {
+               syncAutoma = controllerTwin.getSyncSD(syncs.get(level - 1), added.get(level), nextBad);
+               syncs.put(level, syncAutoma);
+           }
+           else
+           {
+               syncAutoma = controllerTwin.getSyncTwin(nextBad, nextGood);
+               syncs.put(level, syncAutoma);
+           }
+           
+           if(controllerDiagnosability.isDiagnosabilityC1(syncAutoma.getTransitions()))
+           {
+               i++;
+               continue;
+           }
+           
+           if(isFollowedByAnEndlessLoop(syncAutoma))
+           {
+               return (i - 1);
+           }
+           
+           i++;
+        }
+        
+        return i;
+    }
+    
+    public boolean isFollowedByAnEndlessLoop(SyncAutoma automa)
     {
         Set <SyncTransition> ambiguous = getFirstAmiguousTransitions(automa, automa.getInitial());
         
